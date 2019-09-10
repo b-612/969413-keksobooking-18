@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Кононов](https://up.htmlacademy.ru/javascript/18/user/969413).
-* Наставник: `Неизвестно`.
+* Наставник: [Анастасия Ничипорчук](https://github.com/AngryFennec).
 
 ---
 
