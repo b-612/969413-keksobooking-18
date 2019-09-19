@@ -1,9 +1,15 @@
 'use strict';
 
+var HOW_MUCH_ADDRESSES = 8;
+
 var mapArea = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
+var pinTemplate = document.querySelector('#pin')
+  .content.querySelector('.map__pin');
+var fragment = document.createDocumentFragment();
+var pinsList = document.querySelector('.map__pins');
+var largestPin = document.querySelector('.map__pin--main');
 
-var HOW_MUCH_ADDRESSES = 8;
 var OfferParams = {
   TITLES: [
     'Двухэтажные апартаменты',
@@ -80,7 +86,8 @@ var OfferParams = {
 };
 
 var locationParams = {
-  MAX_X: mapArea.offsetWidth,
+  MIN_X: mapArea.offsetWidth - mapArea.offsetWidth + largestPin.offsetWidth / 2,
+  MAX_X: mapArea.offsetWidth - largestPin.offsetWidth / 2,
   MIN_Y: 130,
   MAX_Y: 630
 };
@@ -102,7 +109,7 @@ var getAvatarAddressesNumbers = function () {
 };
 
 var numbersForAddresses = getAvatarAddressesNumbers();
-var takeAddressCounter = numbersForAddresses.length;
+var takeAddressCounter = HOW_MUCH_ADDRESSES;
 
 var takeAddressNumber = function () {
   var number;
@@ -115,14 +122,12 @@ var takeAddressNumber = function () {
 
   if (takeAddressCounter >= 0) {
     return '0' + number;
-  } else {
-    return undefined;
   }
 };
 
 var getProposalAuthor = function () {
   var ProposalAuthor = {
-    'avatar': 'img/avatars/user/' + takeAddressNumber() + '.png'
+    'avatar': 'img/avatars/user' + takeAddressNumber() + '.png'
   };
   return ProposalAuthor;
 };
@@ -181,7 +186,7 @@ var getOffer = function () {
 
 var getLocation = function () {
   var location = {
-    'x': getRandomNumber(locationParams.MAX_X),
+    'x': getRandomNumberInRange(locationParams.MIN_X, locationParams.MAX_X),
     'y': getRandomNumberInRange(locationParams.MIN_Y, locationParams.MAX_Y)
   };
   return location;
@@ -208,4 +213,39 @@ var showMap = function () {
   map.classList.remove('map--faded');
 };
 
-showMap();
+var makePins = function () {
+  var allBookingProps = getAllBookingProps();
+  var pins = [];
+
+  for (var i = 0; i < HOW_MUCH_ADDRESSES; i++) {
+    var pin = pinTemplate.cloneNode(true);
+    var pinImage = pin.querySelector('img');
+    var pinLocationX = allBookingProps[i].location.x - +pinImage.getAttribute('width') / 2;
+    var pinLocationY = allBookingProps[i].location.y - +pinImage.getAttribute('height');
+
+    pin.setAttribute('style', 'left: ' + pinLocationX +
+      'px; ' + 'top: ' + pinLocationY + 'px');
+    pinImage.setAttribute('src', allBookingProps[i].author.avatar);
+    pinImage.setAttribute('alt', allBookingProps[i].offer.title);
+
+    pins.push(pin);
+  }
+
+  return pins;
+};
+
+var renderAndPushFragment = function () {
+  var pins = makePins();
+  for (var i = 0; i < HOW_MUCH_ADDRESSES; i++) {
+    fragment.appendChild(pins[i]);
+  }
+
+  pinsList.appendChild(fragment);
+};
+
+var renderMapAndPins = function () {
+  renderAndPushFragment();
+  showMap();
+};
+
+renderMapAndPins();
