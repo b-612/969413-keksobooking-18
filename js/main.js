@@ -120,9 +120,7 @@ var takeAddressNumber = function () {
   delete numbersForAddresses[number - 1];
   takeAddressCounter--;
 
-  if (takeAddressCounter >= 0) {
-    return '0' + number;
-  }
+  return '0' + number;
 };
 
 var getProposalAuthor = function () {
