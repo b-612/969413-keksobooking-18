@@ -1,6 +1,7 @@
 'use strict';
 
 var mapArea = document.querySelector('.map__pins');
+var map = document.querySelector('.map');
 
 var HOW_MUCH_ADDRESSES = 8;
 var OfferParams = {
@@ -202,3 +203,9 @@ var getAllBookingProps = function () {
   }
   return BookingProps;
 };
+
+var showMap = function () {
+  map.classList.remove('map--faded');
+};
+
+showMap();
