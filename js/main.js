@@ -84,7 +84,7 @@ var LocationParams = {
   MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth + largestPin.offsetWidth / 2),
   MAX_X: mapArea.offsetWidth - largestPin.offsetWidth / 2,
   MIN_Y: 130,
-  MAX_Y: 630
+  MAX_Y: 630,
 };
 
 var getRandomInRange = function (minNumber, maxNumber) {
@@ -116,9 +116,9 @@ var getAvatarNumbers = function () {
     numbers.push(i + 1);
   }
 
-  numbers = shuffleArray(addressesNumbers);
+  numbers = shuffleArray(numbers);
 
-  return addressesNumbers;
+  return numbers;
 };
 
 var addressesNumbers = getAvatarNumbers();
@@ -157,13 +157,15 @@ var getLocation = function () {
   return location;
 };
 
+var locations = getLocation();
+
 var getOffer = function () {
   var offer = {
     'title':
       OfferParams.TITLES[getRandomNumber(OfferParams.TITLES.length - 1)],
 
     'address':
-      getLocation().address(),
+      locations.address(),
 
     'price':
       getRandomInRange(OfferParams.MIN_PRICE, OfferParams.MAX_PRICE),
@@ -198,7 +200,7 @@ var getBookingProp = function () {
   var bookingProp = {
     'author': getProposalAuthor(),
     'offer': getOffer(),
-    'location': getLocation()
+    'location': locations
   };
   return bookingProp;
 };
@@ -206,9 +208,11 @@ var getBookingProp = function () {
 var getAllProps = function () {
   var bookingProps = [];
   for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
+    if (i > 0) {
+      locations = getLocation();
+    }
     bookingProps.push(getBookingProp());
   }
-
   return bookingProps;
 };
 
