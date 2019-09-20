@@ -18,11 +18,6 @@ var OfferParams = {
     'Дорогая гостиница'
   ],
 
-  ADDRESS_MIN_X: 100,
-  ADDRESS_MAX_X: 800,
-  ADDRESS_MIN_Y: 100,
-  ADDRESS_MAX_Y: 500,
-
   MIN_PRICE: 5000,
   MAX_PRICE: 100000,
 
@@ -85,8 +80,8 @@ var OfferParams = {
   },
 };
 
-var locationParams = {
-  MIN_X: mapArea.offsetWidth - mapArea.offsetWidth + largestPin.offsetWidth / 2,
+var LocationParams = {
+  MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth + largestPin.offsetWidth / 2),
   MAX_X: mapArea.offsetWidth - largestPin.offsetWidth / 2,
   MIN_Y: 130,
   MAX_Y: 630
@@ -130,10 +125,6 @@ var getProposalAuthor = function () {
   return ProposalAuthor;
 };
 
-var getOfferAddress = function () {
-  return getRandomNumberInRange(OfferParams.ADDRESS_MIN_X, OfferParams.ADDRESS_MAX_X) + ', ' + getRandomNumberInRange(OfferParams.ADDRESS_MIN_Y, OfferParams.ADDRESS_MAX_Y);
-};
-
 var getOfferRandomList = function (whatRandom, whatRandomMin, whatRandomMax) {
   var howMuchFeatures = getRandomNumberInRange(whatRandomMin, whatRandomMax);
   var featuresList = [];
@@ -145,13 +136,23 @@ var getOfferRandomList = function (whatRandom, whatRandomMin, whatRandomMax) {
   return featuresList;
 };
 
+var getLocation = function () {
+  var location = {
+    'x': getRandomNumberInRange(LocationParams.MIN_X, LocationParams.MAX_X),
+    'y': getRandomNumberInRange(LocationParams.MIN_Y, LocationParams.MAX_Y)
+  };
+  return location;
+};
+
+var locations = getLocation();
+
 var getOffer = function () {
   var offer = {
     'title':
       OfferParams.TITLES[getRandomNumber(OfferParams.TITLES.length - 1)],
 
     'address':
-      getOfferAddress(),
+      locations.x + ', ' + locations.y,
 
     'price':
       getRandomNumberInRange(OfferParams.MIN_PRICE, OfferParams.MAX_PRICE),
@@ -182,19 +183,11 @@ var getOffer = function () {
   return offer;
 };
 
-var getLocation = function () {
-  var location = {
-    'x': getRandomNumberInRange(locationParams.MIN_X, locationParams.MAX_X),
-    'y': getRandomNumberInRange(locationParams.MIN_Y, locationParams.MAX_Y)
-  };
-  return location;
-};
-
 var getBookingProp = function () {
   var bookingProp = {
     'author': getProposalAuthor(),
     'offer': getOffer(),
-    'location': getLocation()
+    'location': locations
   };
   return bookingProp;
 };
