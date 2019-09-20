@@ -1,6 +1,6 @@
 'use strict';
 
-var HOW_MUCH_ADDRESSES = 8;
+var ADDRESSES_QUANTITI = 8;
 
 var mapArea = document.querySelector('.map__pins');
 var map = document.querySelector('.map');
@@ -87,7 +87,7 @@ var LocationParams = {
   MAX_Y: 630
 };
 
-var getRandomNumberInRange = function (minNumber, maxNumber) {
+var getRandomInRange = function (minNumber, maxNumber) {
   return Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
 };
 
@@ -95,38 +95,47 @@ var getRandomNumber = function (maxNumber) {
   return Math.floor(Math.random() * (maxNumber + 1));
 };
 
-var getAvatarAddressesNumbers = function () {
-  var addressesNumbers = [];
-  for (var i = 0; i < HOW_MUCH_ADDRESSES; i++) {
-    addressesNumbers.push(i + 1);
+var shuffleArray = function (array) {
+  var temp;
+  var j;
+
+  for (var i = array.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    temp = array[j];
+    array[j] = array[i];
+    array[i] = temp;
   }
+
+  return array;
+};
+
+var getAvatarNumbers = function () {
+  var numbers = [];
+
+  for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
+    numbers.push(i + 1);
+  }
+
+  numbers = shuffleArray(addressesNumbers);
+
   return addressesNumbers;
 };
 
-var numbersForAddresses = getAvatarAddressesNumbers();
-var takeAddressCounter = HOW_MUCH_ADDRESSES;
-
-var takeAddressNumber = function () {
-  var number;
-  while (number === undefined && takeAddressCounter > 0) {
-    number = numbersForAddresses[getRandomNumber(numbersForAddresses.length)];
-  }
-
-  delete numbersForAddresses[number - 1];
-  takeAddressCounter--;
-
-  return '0' + number;
-};
+var addressesNumbers = getAvatarNumbers();
+var authorsCounter = 0;
 
 var getProposalAuthor = function () {
-  var ProposalAuthor = {
-    'avatar': 'img/avatars/user' + takeAddressNumber() + '.png'
+  var proposalAuthor = {
+    'avatar': 'img/avatars/user0' + addressesNumbers[authorsCounter] + '.png'
   };
-  return ProposalAuthor;
+
+  authorsCounter++;
+
+  return proposalAuthor;
 };
 
-var getOfferRandomList = function (whatRandom, whatRandomMin, whatRandomMax) {
-  var howMuchFeatures = getRandomNumberInRange(whatRandomMin, whatRandomMax);
+var getRandomList = function (whatRandom, whatRandomMin, whatRandomMax) {
+  var howMuchFeatures = getRandomInRange(whatRandomMin, whatRandomMax);
   var featuresList = [];
 
   for (var i = 0; i < howMuchFeatures; i++) {
@@ -138,13 +147,15 @@ var getOfferRandomList = function (whatRandom, whatRandomMin, whatRandomMax) {
 
 var getLocation = function () {
   var location = {
-    'x': getRandomNumberInRange(LocationParams.MIN_X, LocationParams.MAX_X),
-    'y': getRandomNumberInRange(LocationParams.MIN_Y, LocationParams.MAX_Y)
+    'x': getRandomInRange(LocationParams.MIN_X, LocationParams.MAX_X),
+    'y': getRandomInRange(LocationParams.MIN_Y, LocationParams.MAX_Y),
+    'address': function () {
+      return this.x + ', ' + this.y;
+    }
   };
+
   return location;
 };
-
-var locations = getLocation();
 
 var getOffer = function () {
   var offer = {
@@ -152,19 +163,19 @@ var getOffer = function () {
       OfferParams.TITLES[getRandomNumber(OfferParams.TITLES.length - 1)],
 
     'address':
-      locations.x + ', ' + locations.y,
+      getLocation().address(),
 
     'price':
-      getRandomNumberInRange(OfferParams.MIN_PRICE, OfferParams.MAX_PRICE),
+      getRandomInRange(OfferParams.MIN_PRICE, OfferParams.MAX_PRICE),
 
     'type':
       OfferParams.TYPES[getRandomNumber(OfferParams.TYPES.length - 1)],
 
     'rooms':
-      getRandomNumberInRange(OfferParams.MIN_ROOMS, OfferParams.MAX_ROOMS),
+      getRandomInRange(OfferParams.MIN_ROOMS, OfferParams.MAX_ROOMS),
 
     'guests':
-      getRandomNumberInRange(OfferParams.MIN_GUESTS, OfferParams.MAX_GUESTS),
+      getRandomInRange(OfferParams.MIN_GUESTS, OfferParams.MAX_GUESTS),
 
     'checkin':
       OfferParams.CHECKINS[getRandomNumber(OfferParams.CHECKINS.length - 1)],
@@ -173,12 +184,12 @@ var getOffer = function () {
       OfferParams.CHECKOUTS[getRandomNumber(OfferParams.CHECKOUTS.length - 1)],
 
     'features':
-      getOfferRandomList(OfferParams.FEATURES, OfferParams.MIN_FEATURES, OfferParams.maxFeatures()),
+      getRandomList(OfferParams.FEATURES, OfferParams.MIN_FEATURES, OfferParams.maxFeatures()),
 
     'description':
       OfferParams.DESCRIPTIONS[getRandomNumber(OfferParams.DESCRIPTIONS.length - 1)],
 
-    'photos': getOfferRandomList(OfferParams.PHOTOS, OfferParams.MIN_PHOTOS, OfferParams.maxPhotos())
+    'photos': getRandomList(OfferParams.PHOTOS, OfferParams.MIN_PHOTOS, OfferParams.maxPhotos())
   };
   return offer;
 };
@@ -187,17 +198,18 @@ var getBookingProp = function () {
   var bookingProp = {
     'author': getProposalAuthor(),
     'offer': getOffer(),
-    'location': locations
+    'location': getLocation()
   };
   return bookingProp;
 };
 
-var getAllBookingProps = function () {
-  var BookingProps = [];
-  for (var i = 0; i < HOW_MUCH_ADDRESSES; i++) {
-    BookingProps.push(getBookingProp());
+var getAllProps = function () {
+  var bookingProps = [];
+  for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
+    bookingProps.push(getBookingProp());
   }
-  return BookingProps;
+
+  return bookingProps;
 };
 
 var showMap = function () {
@@ -205,10 +217,10 @@ var showMap = function () {
 };
 
 var makePins = function () {
-  var allBookingProps = getAllBookingProps();
+  var allBookingProps = getAllProps();
   var pins = [];
 
-  for (var i = 0; i < HOW_MUCH_ADDRESSES; i++) {
+  for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
     var pin = pinTemplate.cloneNode(true);
     var pinImage = pin.querySelector('img');
     var pinLocationX = allBookingProps[i].location.x - +pinImage.getAttribute('width') / 2;
@@ -225,18 +237,18 @@ var makePins = function () {
   return pins;
 };
 
-var renderAndPushFragment = function () {
+var renderFragment = function () {
   var pins = makePins();
-  for (var i = 0; i < HOW_MUCH_ADDRESSES; i++) {
+  for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
     fragment.appendChild(pins[i]);
   }
 
   pinsList.appendChild(fragment);
 };
 
-var renderMapAndPins = function () {
-  renderAndPushFragment();
+var showPins = function () {
+  renderFragment();
   showMap();
 };
 
-renderMapAndPins();
+showPins();
