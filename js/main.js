@@ -246,7 +246,7 @@ var makePins = function () {
   return pins;
 };
 
-var renderFragment = function () {
+var renderFragmentPins = function () {
   var pins = makePins();
   for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
     fragment.appendChild(pins[i]);
@@ -260,7 +260,7 @@ var showMap = function () {
 };
 
 var showPins = function () {
-  renderFragment();
+  renderFragmentPins();
   showMap();
 };
 
@@ -351,6 +351,17 @@ var makeMapPopup = function () {
   description.textContent = allBookingProps[propIndex].offer.description;
   photos = makePhotos(allBookingProps[propIndex].offer.photos, photo, photos);
   avatar.setAttribute('src', allBookingProps[propIndex].author.avatar);
+
+  return popup;
 };
 
-makeMapPopup();
+var renderFragmentPopup = function () {
+  var popups = makeMapPopup();
+  var mapFilters = map.querySelector('.map__filters-container');
+
+  fragment.appendChild(popups);
+  map.insertBefore(fragment, mapFilters);
+};
+
+renderFragmentPopup();
+
