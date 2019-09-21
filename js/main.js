@@ -31,6 +31,13 @@ var OfferParams = {
     'bungalo'
   ],
 
+  TYPES_DICTIONARY: {
+    'palace': 'Дворец',
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalo': 'Бунгало'
+  },
+
   MIN_ROOMS: 1,
   MAX_ROOMS: 5,
 
@@ -330,17 +337,7 @@ var makeMapPopup = function () {
   priceSymbol = priceSymbol.substring(4);
   price.insertAdjacentHTML('beforeend', priceSymbol);
   typeString = allBookingProps[propIndex].offer.type;
-
-  if (typeString === 'flat') {
-    typeText = 'Квартира';
-  } else if (typeString === 'bungalo') {
-    typeText = 'Бунгало';
-  } else if (typeString === 'house') {
-    typeText = 'Дом';
-  } else if (typeString === 'palace') {
-    typeText = 'Дворец';
-  }
-
+  typeText = OfferParams.TYPES_DICTIONARY[typeString];
   type.textContent = typeText;
   guestsAndRooms.textContent = allBookingProps[propIndex].offer.rooms + ' комнаты для ' + allBookingProps[propIndex].offer.guests + ' гостей';
 
