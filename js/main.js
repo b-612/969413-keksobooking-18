@@ -307,58 +307,87 @@ var makePhotos = function (array, photo, photos) {
   return photos;
 };
 
-var makeMapPopup = function () {
-  var propIndex = 0;
-
+var definePopup = function () {
   var popup = mapPopupTemplate.cloneNode(true);
-  var title = popup.querySelector('.popup__title');
-  var address = popup.querySelector('.popup__text--address');
-  var price = popup.querySelector('.popup__text--price');
+  return popup;
+};
+
+var makeTitleAddressDesc = function (propPopup, prop) {
+  var title = propPopup.querySelector('.popup__title');
+  var address = propPopup.querySelector('.popup__text--address');
+  var description = propPopup.querySelector('.popup__description');
+
+  title.textContent = prop.offer.title;
+  address.textContent = prop.offer.address;
+  description.textContent = prop.offer.description;
+};
+
+var makePrice = function (propPopup, prop) {
+  var price = propPopup.querySelector('.popup__text--price');
   var priceSymbol = price.innerHTML;
-  var type = popup.querySelector('.popup__type');
 
-  var typeText = type.textContent;
-  var typeString;
-
-  var guestsAndRooms = popup.querySelector('.popup__text--capacity');
-  var checkinChekout = popup.querySelector('.popup__text--time');
-
-  var features = popup.querySelector('.popup__features');
-  var feature = features.querySelector('.popup__feature');
-
-  var description = popup.querySelector('.popup__description');
-  var photos = popup.querySelector('.popup__photos');
-  var photo = photos.querySelector('.popup__photo');
-  var avatar = popup.querySelector('.popup__avatar');
-
-  title.textContent = allBookingProps[propIndex].offer.title;
-  address.textContent = allBookingProps[propIndex].offer.address;
-  price.textContent = allBookingProps[propIndex].offer.price;
+  price.textContent = prop.offer.price;
   priceSymbol = priceSymbol.substring(4);
   price.insertAdjacentHTML('beforeend', priceSymbol);
-  typeString = allBookingProps[propIndex].offer.type;
+};
+
+var makeType = function (propPopup, prop) {
+  var type = propPopup.querySelector('.popup__type');
+  var typeText;
+  var typeString;
+
+  typeString = prop.offer.type;
   typeText = OfferParams.TYPES_DICTIONARY[typeString];
   type.textContent = typeText;
-  guestsAndRooms.textContent = allBookingProps[propIndex].offer.rooms + ' комнаты для ' + allBookingProps[propIndex].offer.guests + ' гостей';
+};
 
-  checkinChekout.textContent = 'Заезд после ' + allBookingProps[propIndex].offer.checkin + ', выезд до ' + allBookingProps[propIndex].offer.checkout;
+var makeGuestsOptions = function (propPopup, prop) {
+  var guestsAndRooms = propPopup.querySelector('.popup__text--capacity');
+  var checkinChekout = propPopup.querySelector('.popup__text--time');
 
-  features = makeFeatures(allBookingProps[propIndex].offer.features, feature, features);
+  guestsAndRooms.textContent = prop.offer.rooms + ' комнаты для ' + prop.offer.guests + ' гостей';
 
-  description.textContent = allBookingProps[propIndex].offer.description;
-  photos = makePhotos(allBookingProps[propIndex].offer.photos, photo, photos);
-  avatar.setAttribute('src', allBookingProps[propIndex].author.avatar);
+  checkinChekout.textContent = 'Заезд после ' + prop.offer.checkin + ', выезд до ' + prop.offer.checkout;
+};
+
+var makePropFeatures = function (propPopup, prop) {
+  var features = propPopup.querySelector('.popup__features');
+  var feature = features.querySelector('.popup__feature');
+
+  features = makeFeatures(prop.offer.features, feature, features);
+};
+
+var makePropImages = function (propPopup, prop) {
+  var photos = propPopup.querySelector('.popup__photos');
+  var photo = photos.querySelector('.popup__photo');
+  var avatar = propPopup.querySelector('.popup__avatar');
+
+  photos = makePhotos(prop.offer.photos, photo, photos);
+  avatar.setAttribute('src', prop.author.avatar);
+};
+
+var propIndex = 0;
+var currentProp = allBookingProps[propIndex];
+
+var makeMapPopup = function (prop) {
+  var popup = definePopup();
+
+  makeTitleAddressDesc(popup, prop);
+  makePrice(popup, prop);
+  makeType(popup, prop);
+  makeGuestsOptions(popup, prop);
+  makePropFeatures(popup, prop);
+  makePropImages(popup, prop);
 
   return popup;
 };
 
-var renderFragmentPopup = function () {
-  var popups = makeMapPopup();
+var renderFragmentPopup = function (readyPropPopup) {
   var mapFilters = map.querySelector('.map__filters-container');
 
-  fragment.appendChild(popups);
+  fragment.appendChild(readyPropPopup);
   map.insertBefore(fragment, mapFilters);
 };
 
-renderFragmentPopup();
+renderFragmentPopup(makeMapPopup(currentProp));
 
