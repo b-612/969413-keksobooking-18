@@ -10,6 +10,9 @@ var fragment = document.createDocumentFragment();
 var pinsList = document.querySelector('.map__pins');
 var largestPin = document.querySelector('.map__pin--main');
 
+var mapPopupTemplate = document.querySelector('#card')
+  .content.querySelector('.popup');
+
 var OfferParams = {
   TITLES: [
     'Двухэтажные апартаменты',
@@ -193,6 +196,7 @@ var getOffer = function () {
 
     'photos': getRandomList(OfferParams.PHOTOS, OfferParams.MIN_PHOTOS, OfferParams.maxPhotos())
   };
+
   return offer;
 };
 
@@ -202,26 +206,27 @@ var getBookingProp = function () {
     'offer': getOffer(),
     'location': locations
   };
+
   return bookingProp;
 };
 
 var getAllProps = function () {
   var bookingProps = [];
+
   for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
     if (i > 0) {
       locations = getLocation();
     }
     bookingProps.push(getBookingProp());
   }
+
   return bookingProps;
 };
 
-var showMap = function () {
-  map.classList.remove('map--faded');
-};
+
+var allBookingProps = getAllProps();
 
 var makePins = function () {
-  var allBookingProps = getAllProps();
   var pins = [];
 
   for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
@@ -250,9 +255,102 @@ var renderFragment = function () {
   pinsList.appendChild(fragment);
 };
 
+var showMap = function () {
+  map.classList.remove('map--faded');
+};
+
 var showPins = function () {
   renderFragment();
   showMap();
 };
 
 showPins();
+
+/* module3-task3 */
+
+var makeFeatures = function (array, feature, features) {
+  var oldAttributes = feature.getAttribute('class');
+  var attributes;
+  var nextFeature;
+
+  oldAttributes = oldAttributes.split(' ', 1);
+  features.textContent = '';
+
+  for (var i = 0; i < array.length; i++) {
+    nextFeature = feature.cloneNode();
+    attributes = oldAttributes + ' ' + oldAttributes + '--' + array[i];
+    nextFeature.setAttribute('class', attributes);
+    features.appendChild(nextFeature);
+  }
+
+  return features;
+};
+
+var makePhotos = function (array, photo, photos) {
+  var nextPhoto;
+
+  photos.textContent = '';
+
+  for (var i = 0; i < array.length; i++) {
+    nextPhoto = photo.cloneNode();
+    nextPhoto.setAttribute('src', array[i]);
+    photos.appendChild(nextPhoto);
+  }
+
+  return photos;
+};
+
+var makeMapPopup = function () {
+  var propIndex = 0;
+
+  var popup = mapPopupTemplate.cloneNode(true);
+  var title = popup.querySelector('.popup__title');
+  var address = popup.querySelector('.popup__text--address');
+  var price = popup.querySelector('.popup__text--price');
+  var priceSymbol = price.innerHTML;
+  var type = popup.querySelector('.popup__type');
+
+  var typeText = type.textContent;
+  var typeString;
+
+  var guestsAndRooms = popup.querySelector('.popup__text--capacity');
+  var checkinChekout = popup.querySelector('.popup__text--time');
+
+  var features = popup.querySelector('.popup__features');
+  var feature = features.querySelector('.popup__feature');
+
+  var description = popup.querySelector('.popup__description');
+  var photos = popup.querySelector('.popup__photos');
+  var photo = photos.querySelector('.popup__photo');
+  var avatar = popup.querySelector('.popup__avatar');
+
+  title.textContent = allBookingProps[propIndex].offer.title;
+  address.textContent = allBookingProps[propIndex].offer.address;
+  price.textContent = allBookingProps[propIndex].offer.price;
+  priceSymbol = priceSymbol.substring(4);
+  price.insertAdjacentHTML('beforeend', priceSymbol);
+  typeString = allBookingProps[propIndex].offer.type;
+
+  if (typeString === 'flat') {
+    typeText = 'Квартира';
+  } else if (typeString === 'bungalo') {
+    typeText = 'Бунгало';
+  } else if (typeString === 'house') {
+    typeText = 'Дом';
+  } else if (typeString === 'palace') {
+    typeText = 'Дворец';
+  }
+
+  type.textContent = typeText;
+  guestsAndRooms.textContent = allBookingProps[propIndex].offer.rooms + ' комнаты для ' + allBookingProps[propIndex].offer.guests + ' гостей';
+
+  checkinChekout.textContent = 'Заезд после ' + allBookingProps[propIndex].offer.checkin + ', выезд до ' + allBookingProps[propIndex].offer.checkout;
+
+  features = makeFeatures(allBookingProps[propIndex].offer.features, feature, features);
+
+  description.textContent = allBookingProps[propIndex].offer.description;
+  photos = makePhotos(allBookingProps[propIndex].offer.photos, photo, photos);
+  avatar.setAttribute('src', allBookingProps[propIndex].author.avatar);
+};
+
+makeMapPopup();
