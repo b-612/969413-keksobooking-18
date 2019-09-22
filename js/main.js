@@ -354,7 +354,7 @@ var makePropFeatures = function (propPopup, prop) {
   var features = propPopup.querySelector('.popup__features');
   var feature = features.querySelector('.popup__feature');
 
-  features = makeFeatures(prop.offer.features, feature, features);
+  makeFeatures(prop.offer.features, feature, features);
 };
 
 var makePropImages = function (propPopup, prop) {
@@ -362,7 +362,7 @@ var makePropImages = function (propPopup, prop) {
   var photo = photos.querySelector('.popup__photo');
   var avatar = propPopup.querySelector('.popup__avatar');
 
-  photos = makePhotos(prop.offer.photos, photo, photos);
+  makePhotos(prop.offer.photos, photo, photos);
   avatar.setAttribute('src', prop.author.avatar);
 };
 
