@@ -276,21 +276,22 @@ showPins();
 /* module3-task3 */
 
 var makeFeatures = function (array, feature, features) {
-  var oldAttributes = feature.getAttribute('class');
-  var attributes;
   var nextFeature;
 
-  oldAttributes = oldAttributes.split(' ', 1);
   features.textContent = '';
 
   for (var i = 0; i < array.length; i++) {
     nextFeature = feature.cloneNode();
-    attributes = oldAttributes + ' ' + oldAttributes + '--' + array[i];
-    nextFeature.setAttribute('class', attributes);
+    nextFeature.setAttribute('class', 'popup__feature popup__feature--' + array[i]);
     features.appendChild(nextFeature);
   }
+};
 
-  return features;
+var makePropFeatures = function (propPopup, prop) {
+  var features = propPopup.querySelector('.popup__features');
+  var feature = features.querySelector('.popup__feature');
+
+  makeFeatures(prop.offer.features, feature, features);
 };
 
 var makePhotos = function (array, photo, photos) {
@@ -328,7 +329,7 @@ var makePrice = function (propPopup, prop) {
 
   price.textContent = prop.offer.price;
   priceSymbol = priceSymbol.substring(4);
-  price.insertAdjacentHTML('beforeend', priceSymbol);
+  price.innerHTML = price.innerHTML + priceSymbol;
 };
 
 var makeType = function (propPopup, prop) {
@@ -348,13 +349,6 @@ var makeGuestsOptions = function (propPopup, prop) {
   guestsAndRooms.textContent = prop.offer.rooms + ' комнаты для ' + prop.offer.guests + ' гостей';
 
   checkinChekout.textContent = 'Заезд после ' + prop.offer.checkin + ', выезд до ' + prop.offer.checkout;
-};
-
-var makePropFeatures = function (propPopup, prop) {
-  var features = propPopup.querySelector('.popup__features');
-  var feature = features.querySelector('.popup__feature');
-
-  makeFeatures(prop.offer.features, feature, features);
 };
 
 var makePropImages = function (propPopup, prop) {
