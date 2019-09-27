@@ -271,7 +271,7 @@ var showPins = function () {
   showMap();
 };
 
-showPins();
+// showPins();
 
 /* module3-task3 */
 
@@ -383,5 +383,31 @@ var renderFragmentPopup = function (readyPropPopup) {
   map.insertBefore(fragment, mapFilters);
 };
 
-renderFragmentPopup(makeMapPopup(currentProp));
+// renderFragmentPopup(makeMapPopup(currentProp));
 
+/* module4-task2 */
+
+var adForm = document.querySelector('.ad-form');
+
+var mapFilters = document.querySelector('.map__filters');
+
+
+var formsFields = [
+  adForm.querySelectorAll('fieldset'),
+  mapFilters.querySelectorAll('input'),
+  mapFilters.querySelectorAll('select')
+];
+
+var addDisabledToFields = function (disableFields) {
+  for (var i = 0; i < disableFields.length; i++) {
+    disableFields[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var disableFormsFields = function (fieldsArray) {
+  for (var i = 0; i < fieldsArray.length; i++) {
+    addDisabledToFields(fieldsArray[i]);
+  }
+};
+
+disableFormsFields(formsFields);
