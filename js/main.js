@@ -271,8 +271,6 @@ var showPins = function () {
   showMap();
 };
 
-// showPins();
-
 /* module3-task3 */
 
 var makeFeatures = function (array, feature, features) {
@@ -383,12 +381,11 @@ var renderFragmentPopup = function (readyPropPopup) {
   map.insertBefore(fragment, mapFilters);
 };
 
-// renderFragmentPopup(makeMapPopup(currentProp));
-
 /* module4-task2 */
+var MOUSE_LEFT_KEYCODE = 1;
+var ENTER_KEYCODE = 13;
 
 var adForm = document.querySelector('.ad-form');
-
 var mapFilters = document.querySelector('.map__filters');
 
 
@@ -398,16 +395,41 @@ var formsFields = [
   mapFilters.querySelectorAll('select')
 ];
 
-var addDisabledToFields = function (disableFields) {
-  for (var i = 0; i < disableFields.length; i++) {
-    disableFields[i].setAttribute('disabled', 'disabled');
+var toggleFields = function (fields, isDisabled) {
+  for (var i = 0; i < fields.length; i++) {
+    if (!isDisabled) {
+      fields[i].setAttribute('disabled', 'disabled');
+    } else {
+      fields[i].removeAttribute('disabled');
+    }
   }
 };
 
-var disableFormsFields = function (fieldsArray) {
+var disableFormsFields = function (fieldsArray, isDisabled) {
   for (var i = 0; i < fieldsArray.length; i++) {
-    addDisabledToFields(fieldsArray[i]);
+    toggleFields(fieldsArray[i], isDisabled);
   }
 };
 
-disableFormsFields(formsFields);
+var activatePage = function () {
+  renderFragmentPopup(makeMapPopup(currentProp));
+  showPins();
+  disableFormsFields(formsFields, false);
+};
+
+var setPageConditionCallback = function () {
+  largestPin.addEventListener('mousedown', function (evt) {
+    if (evt.which === MOUSE_LEFT_KEYCODE) {
+      activatePage();
+    }
+  });
+
+  largestPin.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      activatePage();
+    }
+  });
+};
+
+disableFormsFields(formsFields, false);
+setPageConditionCallback();
