@@ -412,6 +412,7 @@ var toggleFormsFields = function (fieldsArray, isDisabled) {
 };
 
 var activatePage = function () {
+  adForm.classList.remove('ad-form--disabled');
   renderFragmentPopup(makeMapPopup(currentProp));
   showPins();
   toggleFormsFields(formsFields, true);
