@@ -394,9 +394,13 @@ var housingTypesPrices = {
 };
 
 var adForm = document.querySelector('.ad-form');
-var adFormTitle = adForm.querySelector('#title');
+// var adFormTitle = adForm.querySelector('#title');
 var housingType = adForm.querySelector('#type');
 var housingPrice = adForm.querySelector('#price');
+var timeIn = adForm.querySelector('#timein');
+var timeIns = timeIn.querySelectorAll('option');
+var timeOut = adForm.querySelector('#timeout');
+var timeOuts = timeOut.querySelectorAll('option');
 
 var mapFilters = document.querySelector('.map__filters');
 
@@ -466,7 +470,33 @@ var onHousingTypeChange = function () {
   housingPrice.setAttribute('placeholder', housingTypesPrices[housingType.value]);
 };
 
+// var onTimeChange = function (checkedArray, mutableArray, whatMutable) {
+//   return function () {
+//     // debugger;
+//     var selectedTime;
+//     var optionValue;
+//     var mutableValues = [];
+//
+//     for (var i = 0; i < mutableArray.length; i++) {
+//       optionValue = mutableArray[i].getAttribute('value');
+//       mutableValues.push(optionValue);
+//       selectedTime = mutableArray[i].getAttribute('selected');
+//       if (selectedTime !== null) {
+//         mutableArray[i].removeAttribute('selected');
+//       }
+//     }
+//
+//     mutableArray[mutableValues.indexOf(whatMutable.value)].setAttribute('selected', 'selected');
+//   };
+// };
+
 housingType.addEventListener('change', onHousingTypeChange);
+timeIn.addEventListener('change', function () {
+  timeOut.value = timeIn.value;
+});
+timeOut.addEventListener('change', function () {
+  timeIn.value = timeOut.value;
+});
 
 toggleFormsFields(formsFields, false);
 setPageConditionCallback();
