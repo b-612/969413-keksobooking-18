@@ -394,20 +394,25 @@ var housingTypesPrices = {
 };
 
 var adForm = document.querySelector('.ad-form');
-// var adFormTitle = adForm.querySelector('#title');
 var housingType = adForm.querySelector('#type');
 var housingPrice = adForm.querySelector('#price');
 var timeIn = adForm.querySelector('#timein');
-var timeIns = timeIn.querySelectorAll('option');
 var timeOut = adForm.querySelector('#timeout');
-var timeOuts = timeOut.querySelectorAll('option');
-
 var mapFilters = document.querySelector('.map__filters');
+var selectRooms = adForm.querySelector('#room_number');
+var selectCapasity = adForm.querySelector('#capacity');
 
 var formsFields = [
   adForm.querySelectorAll('fieldset'),
   mapFilters.querySelectorAll('input'),
   mapFilters.querySelectorAll('select')
+];
+
+var capacityErrors = [
+  'Одна комната для одного гостя',
+  'Две комнаты для одного, или двоих гостей',
+  'Три комнаты для одного, двоих, или троих гостей',
+  'Не для гостей'
 ];
 
 var toggleFields = function (fields, isDisabled) {
@@ -470,34 +475,36 @@ var onHousingTypeChange = function () {
   housingPrice.setAttribute('placeholder', housingTypesPrices[housingType.value]);
 };
 
-// var onTimeChange = function (checkedArray, mutableArray, whatMutable) {
-//   return function () {
-//     // debugger;
-//     var selectedTime;
-//     var optionValue;
-//     var mutableValues = [];
-//
-//     for (var i = 0; i < mutableArray.length; i++) {
-//       optionValue = mutableArray[i].getAttribute('value');
-//       mutableValues.push(optionValue);
-//       selectedTime = mutableArray[i].getAttribute('selected');
-//       if (selectedTime !== null) {
-//         mutableArray[i].removeAttribute('selected');
-//       }
-//     }
-//
-//     mutableArray[mutableValues.indexOf(whatMutable.value)].setAttribute('selected', 'selected');
-//   };
-// };
+var onRoomsCapasityChange = function () {
+  if (Number(selectRooms.value) < Number(selectCapasity.value)) {
+    selectCapasity.setCustomValidity(capacityErrors[selectRooms.value - 1]);
+  } else if (Number(selectRooms.value) !== 100 && Number(selectCapasity.value) === 0) {
+    selectCapasity.setCustomValidity(capacityErrors[selectRooms.value - 1]);
+  } else if (Number(selectRooms.value) === 100 && Number(selectCapasity.value) !== 0) {
+    selectCapasity.setCustomValidity(capacityErrors[capacityErrors.length - 1]);
+  } else {
+    selectCapasity.setCustomValidity('');
+  }
+};
 
-housingType.addEventListener('change', onHousingTypeChange);
-timeIn.addEventListener('change', function () {
-  timeOut.value = timeIn.value;
-});
-timeOut.addEventListener('change', function () {
-  timeIn.value = timeOut.value;
-});
+var setValidityCallback = function () {
+  housingType.addEventListener('change', onHousingTypeChange);
+
+  timeIn.addEventListener('change', function () {
+    timeOut.value = timeIn.value;
+  });
+
+  timeOut.addEventListener('change', function () {
+    timeIn.value = timeOut.value;
+  });
+
+  onRoomsCapasityChange();
+  selectRooms.addEventListener('change', onRoomsCapasityChange);
+  selectCapasity.addEventListener('change', onRoomsCapasityChange);
+};
+
 
 toggleFormsFields(formsFields, false);
 setPageConditionCallback();
 setAddressInput(true);
+setValidityCallback();
