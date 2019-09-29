@@ -386,7 +386,18 @@ var MOUSE_LEFT_KEYCODE = 1;
 var ENTER_KEYCODE = 13;
 var MAIN_TAIL_HEIGHT = 22;
 
+var housingTypesPrices = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
 var adForm = document.querySelector('.ad-form');
+var adFormTitle = adForm.querySelector('#title');
+var housingType = adForm.querySelector('#type');
+var housingPrice = adForm.querySelector('#price');
+
 var mapFilters = document.querySelector('.map__filters');
 
 var formsFields = [
@@ -449,6 +460,13 @@ var setPageConditionCallback = function () {
     }
   });
 };
+
+var onHousingTypeChange = function () {
+  housingPrice.setAttribute('min', housingTypesPrices[housingType.value]);
+  housingPrice.setAttribute('placeholder', housingTypesPrices[housingType.value]);
+};
+
+housingType.addEventListener('change', onHousingTypeChange);
 
 toggleFormsFields(formsFields, false);
 setPageConditionCallback();
