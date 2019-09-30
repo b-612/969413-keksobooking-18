@@ -386,7 +386,7 @@ var MOUSE_LEFT_KEYCODE = 1;
 var ENTER_KEYCODE = 13;
 var MAIN_TAIL_HEIGHT = 22;
 
-var housingTypesPrices = {
+var HousingTypesPrices = {
   'bungalo': 0,
   'flat': 1000,
   'house': 5000,
@@ -408,7 +408,7 @@ var formsFields = [
   mapFilters.querySelectorAll('select')
 ];
 
-var capacityErrors = [
+var CapacityErrors = [
   'Одна комната для одного гостя',
   'Две комнаты для одного, или двоих гостей',
   'Три комнаты для одного, двоих, или троих гостей',
@@ -471,19 +471,23 @@ var setPageConditionCallback = function () {
 };
 
 var onHousingTypeChange = function () {
-  housingPrice.setAttribute('min', housingTypesPrices[housingType.value]);
-  housingPrice.setAttribute('placeholder', housingTypesPrices[housingType.value]);
+  housingPrice.setAttribute('min', HousingTypesPrices[housingType.value]);
+  housingPrice.setAttribute('placeholder', HousingTypesPrices[housingType.value]);
 };
 
 var onRoomsCapasityChange = function () {
-  if (Number(selectRooms.value) < Number(selectCapasity.value)) {
-    selectCapasity.setCustomValidity(capacityErrors[selectRooms.value - 1]);
-  } else if (Number(selectRooms.value) !== 100 && Number(selectCapasity.value) === 0) {
-    selectCapasity.setCustomValidity(capacityErrors[selectRooms.value - 1]);
-  } else if (Number(selectRooms.value) === 100 && Number(selectCapasity.value) !== 0) {
-    selectCapasity.setCustomValidity(capacityErrors[capacityErrors.length - 1]);
-  } else {
-    selectCapasity.setCustomValidity('');
+  switch (true) {
+    case Number(selectRooms.value) < Number(selectCapasity.value) :
+      selectCapasity.setCustomValidity(CapacityErrors[selectRooms.value - 1]);
+      break;
+    case Number(selectRooms.value) !== 100 && Number(selectCapasity.value) === 0 :
+      selectCapasity.setCustomValidity(CapacityErrors[selectRooms.value - 1]);
+      break;
+    case Number(selectRooms.value) === 100 && Number(selectCapasity.value) !== 0 :
+      selectCapasity.setCustomValidity(CapacityErrors[CapacityErrors.length - 1]);
+      break;
+    default:
+      selectCapasity.setCustomValidity('');
   }
 };
 
