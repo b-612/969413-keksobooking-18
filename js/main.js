@@ -1,4 +1,8 @@
 'use strict';
+var MOUSE_LEFT_KEYCODE = 1;
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+var MAIN_TAIL_HEIGHT = 22;
 
 var ADDRESSES_QUANTITI = 8;
 
@@ -260,6 +264,8 @@ var renderFragmentPins = function () {
   }
 
   pinsList.appendChild(fragment);
+
+  return pins;
 };
 
 var showMap = function () {
@@ -267,8 +273,10 @@ var showMap = function () {
 };
 
 var showPins = function () {
-  renderFragmentPins();
+  var pins = renderFragmentPins();
   showMap();
+
+  return pins;
 };
 
 /* module3-task3 */
@@ -358,9 +366,6 @@ var makePropImages = function (propPopup, prop) {
   avatar.setAttribute('src', prop.author.avatar);
 };
 
-var propIndex = 0;
-var currentProp = allBookingProps[propIndex];
-
 var makeMapPopup = function (prop) {
   var popup = definePopup();
 
@@ -374,17 +379,45 @@ var makeMapPopup = function (prop) {
   return popup;
 };
 
+var removeMapCardClick = function (mapCard, cardCloseBtn) {
+  return function () {
+    mapCard.remove();
+    cardCloseBtn.removeEventListener('click', removeMapCardClick);
+  };
+};
+
+var onMapCardEscPress = function (mapCard) {
+  return function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      mapCard.remove();
+      document.removeEventListener('keydown', onMapCardEscPress);
+    }
+  };
+};
+
+var addCloseBtnCallback = function () {
+  var mapCard = document.querySelector('.map__card');
+  var cardCloseBtn = mapCard.querySelector('.popup__close');
+
+  cardCloseBtn.addEventListener('click', removeMapCardClick(mapCard, cardCloseBtn));
+  document.addEventListener('keydown', onMapCardEscPress(mapCard));
+};
+
 var renderFragmentPopup = function (readyPropPopup) {
   var mapFilters = map.querySelector('.map__filters-container');
+  var mapCard = document.querySelector('.map__card');
+
+  if (mapCard) {
+    mapCard.remove();
+  }
 
   fragment.appendChild(readyPropPopup);
   map.insertBefore(fragment, mapFilters);
+
+  addCloseBtnCallback();
 };
 
 /* module4-task2 */
-var MOUSE_LEFT_KEYCODE = 1;
-var ENTER_KEYCODE = 13;
-var MAIN_TAIL_HEIGHT = 22;
 
 var HousingTypesPrices = {
   'bungalo': 0,
@@ -433,10 +466,11 @@ var toggleFormsFields = function (fieldsArray, isDisabled) {
 
 var activatePage = function () {
   adForm.classList.remove('ad-form--disabled');
-  renderFragmentPopup(makeMapPopup(currentProp));
-  showPins();
+  var allPins = showPins();
   toggleFormsFields(formsFields, true);
   setAddressInput(false);
+
+  return allPins;
 };
 
 var setAddressInput = function (isDisabled) {
@@ -456,16 +490,37 @@ var setAddressInput = function (isDisabled) {
     ', ' + mainPinY);
 };
 
+var onPinClick = function (i) {
+  return function () {
+    renderFragmentPopup(makeMapPopup(allBookingProps[i]));
+  };
+};
+
+var onPinEnterPress = function (i) {
+  return function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      renderFragmentPopup(makeMapPopup(allBookingProps[i]));
+    }
+  };
+};
+
+var addPinsListeners = function (mapPins) {
+  for (var i = 0; i < mapPins.length; i++) {
+    mapPins[i].addEventListener('click', onPinClick(i));
+    mapPins[i].addEventListener('keydown', onPinEnterPress(i));
+  }
+};
+
 var setPageConditionCallback = function () {
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.which === MOUSE_LEFT_KEYCODE) {
-      activatePage();
+      addPinsListeners(activatePage());
     }
   });
 
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
-      activatePage();
+      addPinsListeners(activatePage());
     }
   });
 };
@@ -475,7 +530,7 @@ var onHousingTypeChange = function () {
   housingPrice.setAttribute('placeholder', HousingTypesPrices[housingType.value]);
 };
 
-var onRoomsCapasityChange = function () {
+var onRoomsCapacityChange = function () {
   switch (true) {
     case Number(selectRooms.value) < Number(selectCapasity.value) :
       selectCapasity.setCustomValidity(CapacityErrors[selectRooms.value - 1]);
@@ -502,9 +557,9 @@ var setValidityCallback = function () {
     timeIn.value = timeOut.value;
   });
 
-  onRoomsCapasityChange();
-  selectRooms.addEventListener('change', onRoomsCapasityChange);
-  selectCapasity.addEventListener('change', onRoomsCapasityChange);
+  onRoomsCapacityChange();
+  selectRooms.addEventListener('change', onRoomsCapacityChange);
+  selectCapasity.addEventListener('change', onRoomsCapacityChange);
 };
 
 
