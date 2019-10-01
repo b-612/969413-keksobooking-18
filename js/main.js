@@ -379,19 +379,14 @@ var makeMapPopup = function (prop) {
   return popup;
 };
 
-var removeMapCardClick = function (mapCard, cardCloseBtn) {
-  return function () {
-    mapCard.remove();
-    cardCloseBtn.removeEventListener('click', removeMapCardClick);
-  };
-};
-
-var onMapCardEscPress = function (mapCard) {
+var removeMapCardListeners = function (mapCard, cardCloseBtn) {
   return function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEYCODE || evt.target === cardCloseBtn) {
       mapCard.remove();
-      document.removeEventListener('keydown', onMapCardEscPress);
     }
+
+    cardCloseBtn.removeEventListener('click', removeMapCardListeners);
+    document.removeEventListener('keydown', removeMapCardListeners);
   };
 };
 
@@ -399,8 +394,8 @@ var addCloseBtnCallback = function () {
   var mapCard = document.querySelector('.map__card');
   var cardCloseBtn = mapCard.querySelector('.popup__close');
 
-  cardCloseBtn.addEventListener('click', removeMapCardClick(mapCard, cardCloseBtn));
-  document.addEventListener('keydown', onMapCardEscPress(mapCard));
+  cardCloseBtn.addEventListener('click', removeMapCardListeners(mapCard, cardCloseBtn));
+  document.addEventListener('keydown', removeMapCardListeners(mapCard, cardCloseBtn));
 };
 
 var renderFragmentPopup = function (readyPropPopup) {
