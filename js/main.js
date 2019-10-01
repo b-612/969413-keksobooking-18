@@ -441,7 +441,7 @@ var formsFields = [
   mapFilters.querySelectorAll('select')
 ];
 
-var CapacityErrors = [
+var CAPACITY_ERRORS = [
   'Одна комната для одного гостя',
   'Две комнаты для одного, или двоих гостей',
   'Три комнаты для одного, двоих, или троих гостей',
@@ -533,13 +533,13 @@ var onHousingTypeChange = function () {
 var onRoomsCapacityChange = function () {
   switch (true) {
     case Number(selectRooms.value) < Number(selectCapasity.value) :
-      selectCapasity.setCustomValidity(CapacityErrors[selectRooms.value - 1]);
+      selectCapasity.setCustomValidity(CAPACITY_ERRORS[selectRooms.value - 1]);
       break;
     case Number(selectRooms.value) !== 100 && Number(selectCapasity.value) === 0 :
-      selectCapasity.setCustomValidity(CapacityErrors[selectRooms.value - 1]);
+      selectCapasity.setCustomValidity(CAPACITY_ERRORS[selectRooms.value - 1]);
       break;
     case Number(selectRooms.value) === 100 && Number(selectCapasity.value) !== 0 :
-      selectCapasity.setCustomValidity(CapacityErrors[CapacityErrors.length - 1]);
+      selectCapasity.setCustomValidity(CAPACITY_ERRORS[CAPACITY_ERRORS.length - 1]);
       break;
     default:
       selectCapasity.setCustomValidity('');
