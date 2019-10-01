@@ -562,7 +562,6 @@ var setValidityCallback = function () {
   selectCapasity.addEventListener('change', onRoomsCapacityChange);
 };
 
-
 toggleFormsFields(formsFields, false);
 setPageConditionCallback();
 setAddressInput(true);
