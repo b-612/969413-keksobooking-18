@@ -379,14 +379,23 @@ var makeMapPopup = function (prop) {
   return popup;
 };
 
-var removeMapCardListeners = function (mapCard, cardCloseBtn) {
-  return function (evt) {
-    if (evt.keyCode === ESC_KEYCODE || evt.target === cardCloseBtn) {
-      mapCard.remove();
-    }
+var removeMapCard = function (mapCard, cardCloseBtn) {
+  mapCard.remove();
+  cardCloseBtn.removeEventListener('click', onCardCloseBtnClick);
+  document.removeEventListener('keydown', onCardEscPress);
+};
 
-    cardCloseBtn.removeEventListener('click', removeMapCardListeners);
-    document.removeEventListener('keydown', removeMapCardListeners);
+var onCardCloseBtnClick = function (mapCard, cardCloseBtn) {
+  return function () {
+    removeMapCard(mapCard, cardCloseBtn);
+  };
+};
+
+var onCardEscPress = function (mapCard, cardCloseBtn) {
+  return function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      removeMapCard(mapCard, cardCloseBtn);
+    }
   };
 };
 
@@ -394,8 +403,8 @@ var addCloseBtnCallback = function () {
   var mapCard = document.querySelector('.map__card');
   var cardCloseBtn = mapCard.querySelector('.popup__close');
 
-  cardCloseBtn.addEventListener('click', removeMapCardListeners(mapCard, cardCloseBtn));
-  document.addEventListener('keydown', removeMapCardListeners(mapCard, cardCloseBtn));
+  cardCloseBtn.addEventListener('click', onCardCloseBtnClick(mapCard, cardCloseBtn));
+  document.addEventListener('keydown', onCardEscPress(mapCard, cardCloseBtn));
 };
 
 var renderFragmentPopup = function (readyPropPopup) {
