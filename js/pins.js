@@ -12,8 +12,8 @@
     for (var i = 0; i < window.data.addressesQuantiti; i++) {
       var pin = pinTemplate.cloneNode(true);
       var pinImage = pin.querySelector('img');
-      var pinLocationX = window.data.allBookingProps[i].location.x - +pinImage.getAttribute('width') / 2;
-      var pinLocationY = window.data.allBookingProps[i].location.y - +pinImage.getAttribute('height');
+      var pinLocationX = window.data.allBookingProps[i].location.x - +pin.getAttribute('width') / 2;
+      var pinLocationY = window.data.allBookingProps[i].location.y - +pin.getAttribute('height');
 
       pin.setAttribute('style', 'left: ' + pinLocationX +
         'px; ' + 'top: ' + pinLocationY + 'px');
