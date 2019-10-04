@@ -6,22 +6,27 @@
     var allPins = window.pins.showPins();
     window.form.toggleFormsFields(window.form.formsFields, true);
     window.form.setAddressInput(false);
+    window.data.mainPin.removeEventListener('mousedown', onMainPinMousedown);
+    window.data.mainPin.removeEventListener('keydown', onMainPinEnterKeydown);
 
     return allPins;
   };
 
-  var setPageConditionCallback = function () {
-    window.data.mainPin.addEventListener('mousedown', function (evt) {
-      if (evt.which === window.util.MOUSE_LEFT_KEYCODE) {
-        window.pins.addPinsListeners(activatePage());
-      }
-    });
+  var onMainPinMousedown = function (evt) {
+    if (evt.which === window.util.MOUSE_LEFT_KEYCODE) {
+      window.pins.addPinsListeners(activatePage());
+    }
+  };
 
-    window.data.mainPin.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.util.ENTER_KEYCODE) {
-        window.pins.addPinsListeners(activatePage());
-      }
-    });
+  var onMainPinEnterKeydown = function (evt) {
+    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+      window.pins.addPinsListeners(activatePage());
+    }
+  };
+
+  var setPageConditionCallback = function () {
+    window.data.mainPin.addEventListener('mousedown', onMainPinMousedown);
+    window.data.mainPin.addEventListener('keydown', onMainPinEnterKeydown);
   };
 
   setPageConditionCallback();
