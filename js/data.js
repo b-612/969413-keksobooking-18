@@ -84,7 +84,7 @@
   };
 
   var LocationParams = {
-    MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth + mainPin.offsetWidth / 2),
+    MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth + (mainPin.offsetWidth / 2)),
     MAX_X: mapArea.offsetWidth - mainPin.offsetWidth / 2,
     MIN_Y: 130,
     MAX_Y: 630,
@@ -206,6 +206,8 @@
     addressesQuantiti: ADDRESSES_QUANTITI,
     offerParams: OfferParams,
     mainPin: mainPin,
+    mapArea: mapArea,
+    LocationParams: LocationParams,
     allBookingProps: getAllProps()
   };
 })();
