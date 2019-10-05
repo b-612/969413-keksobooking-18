@@ -55,7 +55,6 @@
     };
 
     var onMainPinMouseUp = function (upEvt) {
-      debugger;
       upEvt.preventDefault();
 
       window.form.setAddressInput(false);
