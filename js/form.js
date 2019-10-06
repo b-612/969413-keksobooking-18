@@ -50,7 +50,7 @@
 
   var setAddressInput = function (isDisabled) {
     var addressInput = adForm.querySelector('#address');
-    var mainPinLocations = window.data.mainPin.getAttribute('style').match(/\d+/g);
+    var mainPinLocations = window.data.mainPin.getAttribute('style').match(/-?\d+/g);
     var mainPinX = Number(mainPinLocations[0]);
     var mainPinY = Number(mainPinLocations[1]);
 

@@ -39,8 +39,8 @@
         case currentPinPosition.x > LocationParams.MAX_X - mainPinHalfWidth :
           currentPinPosition.x = LocationParams.MAX_X - mainPinHalfWidth;
           break;
-        case currentPinPosition.y < LocationParams.MIN_Y :
-          currentPinPosition.y = LocationParams.MIN_Y;
+        case currentPinPosition.y < LocationParams.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
+          currentPinPosition.y = LocationParams.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
           break;
         case currentPinPosition.y > LocationParams.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
           currentPinPosition.y = LocationParams.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
