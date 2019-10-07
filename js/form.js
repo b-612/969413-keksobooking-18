@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var MAIN_TAIL_HEIGHT = 22;
+  var MAIN_TAIL_HEIGHT = 16;
 
   var HousingTypesPrices = {
     'bungalo': 0,
@@ -50,18 +50,17 @@
 
   var setAddressInput = function (isDisabled) {
     var addressInput = adForm.querySelector('#address');
-    var mainPinLocations = window.data.mainPin.getAttribute('style').match(/\d+/g);
-    var mainPinImage = window.data.mainPin.querySelector('img');
+    var mainPinLocations = window.data.mainPin.getAttribute('style').match(/-?\d+/g);
     var mainPinX = Number(mainPinLocations[0]);
     var mainPinY = Number(mainPinLocations[1]);
 
     if (isDisabled) {
-      mainPinY = mainPinY + Math.floor(mainPinImage.offsetHeight / 2);
+      mainPinY = mainPinY + Math.round(window.data.mainPin.offsetHeight / 2);
     } else {
-      mainPinY = mainPinY + Math.floor(mainPinImage.offsetHeight) + MAIN_TAIL_HEIGHT;
+      mainPinY = mainPinY + Math.round(window.data.mainPin.offsetHeight) + MAIN_TAIL_HEIGHT;
     }
 
-    addressInput.setAttribute('value', (mainPinX + Math.floor(mainPinImage.offsetWidth / 2)) +
+    addressInput.setAttribute('value', (mainPinX + Math.floor(window.data.mainPin.offsetWidth / 2)) +
       ', ' + mainPinY);
   };
 
@@ -109,6 +108,7 @@
   window.form = {
     adForm: adForm,
     formsFields: formsFields,
+    mainTailHeight: MAIN_TAIL_HEIGHT,
 
     toggleFormsFields: toggleFormsFields,
     setAddressInput: setAddressInput
