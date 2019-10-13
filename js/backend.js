@@ -3,9 +3,14 @@
 (function () {
   var URL_FOR_LOAD = 'https://js.dump.academy/keksobooking/data';
   var METHOD_FOR_LOAD = 'GET';
+  var DATA_FOR_LOAD = null;
 
   var REQUEST_TIMEOUT = 15000;
   var STATUS_OK = 200;
+
+  var INVALID_REQUEST = 400;
+  var USER_NOT_AUTHORIZED = 401;
+  var NOTHING_FOUND = 404;
 
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error');
@@ -23,7 +28,7 @@
     xhr.open(method, url);
 
     switch (data) {
-      case null :
+      case DATA_FOR_LOAD :
         xhr.send();
         break;
       default :
@@ -40,13 +45,13 @@
     var errorMessage;
 
     switch (xhr.status) {
-      case 400 :
+      case INVALID_REQUEST :
         errorMessage = 'Неверный запрос';
         break;
-      case 401 :
+      case USER_NOT_AUTHORIZED :
         errorMessage = 'Пользователь не авторизован';
         break;
-      case 404 :
+      case NOTHING_FOUND :
         errorMessage = 'Ничего не найдено';
         break;
       default :
@@ -92,7 +97,7 @@
   var getAllPinsData = function (onLoad, onError) {
     var xhr = getXhr();
 
-    getXhrParams(xhr, URL_FOR_LOAD, METHOD_FOR_LOAD, REQUEST_TIMEOUT, null);
+    getXhrParams(xhr, URL_FOR_LOAD, METHOD_FOR_LOAD, REQUEST_TIMEOUT, DATA_FOR_LOAD);
     getAdditionalErrors(xhr);
     setLoadCallback(xhr, onLoad, onError);
   };
