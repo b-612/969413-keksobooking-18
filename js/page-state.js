@@ -14,13 +14,13 @@
 
   var onMainPinMousedown = function (evt) {
     if (evt.which === window.util.MOUSE_LEFT_KEYCODE) {
-      window.backend.getAllPinsData(activatePage, null);
+      window.backend.getAllPinsData(activatePage, window.backend.getError);
     }
   };
 
   var onMainPinEnterKeydown = function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
-      window.backend.getAllPinsData(activatePage, null);
+      window.backend.getAllPinsData(activatePage, window.backend.getError);
     }
   };
 
