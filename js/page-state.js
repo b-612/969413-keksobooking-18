@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
-  var activatePage = function () {
+  var activatePage = function (allDownloadPins) {
     window.form.adForm.classList.remove('ad-form--disabled');
-    var allPins = window.pins.showPins();
+    var allPins = window.pins.showPins(allDownloadPins);
     window.form.toggleFormsFields(window.form.formsFields, true);
     window.form.setAddressInput(false);
     window.data.mainPin.removeEventListener('mousedown', onMainPinMousedown);
@@ -14,13 +14,13 @@
 
   var onMainPinMousedown = function (evt) {
     if (evt.which === window.util.MOUSE_LEFT_KEYCODE) {
-      window.pins.addPinsListeners(activatePage());
+      window.backend.getAllPinsData(activatePage, window.backend.getError);
     }
   };
 
   var onMainPinEnterKeydown = function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
-      window.pins.addPinsListeners(activatePage());
+      window.backend.getAllPinsData(activatePage, window.backend.getError);
     }
   };
 
