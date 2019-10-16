@@ -4,6 +4,7 @@
   var MAIN_PIN_START_COORDS = 'left: 570px; top: 375px;';
 
   var form = window.form.adForm;
+  var successTemplate = document.querySelector('#success');
 
   var cleanFields = function () {
     var textNumberFields = form.querySelectorAll('input[type=text], input[type=number], #description');
@@ -28,6 +29,15 @@
     }
   };
 
+  var showSuccess = function () {
+    var successTemplateCopy = successTemplate.cloneNode(true);
+    var successBlock = successTemplateCopy.content.querySelector('.success');
+
+    window.backend.main.insertAdjacentElement('afterbegin', successBlock);
+    document.addEventListener('click', window.backend.onMassageCloseClick(successBlock));
+    document.addEventListener('keydown', window.backend.onMessageEscPress(successBlock));
+  };
+
   var onButtonSubmit = function () {
     removePins();
     cleanDisableFields();
@@ -36,6 +46,7 @@
     window.form.adForm.classList.add('ad-form--disabled');
     window.form.setAddressInput(true);
     window.pageState.setPageConditionCallback();
+    showSuccess();
   };
 
   var setFormCallback = function () {

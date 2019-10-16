@@ -66,13 +66,37 @@
     };
   };
 
+  var onMassageCloseClick = function (massageBlock) {
+    return function () {
+      massageBlock.remove();
+      document.removeEventListener('mousedown', onMassageCloseClick);
+      document.removeEventListener('keydown', onMessageEscPress);
+    };
+  };
+
+  var onMessageEscPress = function (massageBlock) {
+    return function (evt) {
+      if (evt.keyCode === window.util.ESC_KEYCODE) {
+        massageBlock.remove();
+        document.removeEventListener('keydown', onMessageEscPress);
+        document.removeEventListener('mousedown', onMassageCloseClick);
+      }
+    };
+  };
+
   var getError = function (errorMessage) {
     var errorTemplateCopy = errorTemplate.cloneNode(true);
     var errorBlock = errorTemplateCopy.content.querySelector('.error');
     var errorText = errorBlock.querySelector('.error__message');
+    var errorBtn = errorBlock.querySelector('.error__button');
 
     errorText.textContent = errorMessage;
     main.insertAdjacentElement('afterbegin', errorBlock);
+    errorBtn.addEventListener('click', onMassageCloseClick(errorBlock));
+    document.addEventListener('mousedown', onMassageCloseClick(errorBlock));
+    document.addEventListener('keydown', onMessageEscPress(errorBlock));
+    errorBlock.tabIndex = 1;
+    errorBlock.focus();
   };
 
   var getAdditionalErrors = function (xhr) {
@@ -121,8 +145,12 @@
     urlForUpload: URL_FOR_UPLOAD,
     methodForUpload: METHOD_FOR_UPLOAD,
 
+    main: main,
+
     getError: getError,
-    loadUploadData: loadUploadData
+    loadUploadData: loadUploadData,
+    onMassageCloseClick: onMassageCloseClick,
+    onMessageEscPress: onMessageEscPress
   };
 })();
 
