@@ -60,8 +60,8 @@
       mainPinY = mainPinY + Math.round(window.data.mainPin.offsetHeight) + MAIN_TAIL_HEIGHT;
     }
 
-    addressInput.setAttribute('value', (mainPinX + Math.floor(window.data.mainPin.offsetWidth / 2)) +
-      ', ' + mainPinY);
+    addressInput.value = (mainPinX + Math.floor(window.data.mainPin.offsetWidth / 2)) +
+      ', ' + mainPinY;
   };
 
   var onHousingTypeChange = function () {
