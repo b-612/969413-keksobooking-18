@@ -69,8 +69,14 @@
   var onMassageCloseClick = function (massageBlock) {
     return function () {
       massageBlock.remove();
-      document.removeEventListener('mousedown', onMassageCloseClick);
-      document.removeEventListener('keydown', onMessageEscPress);
+    };
+  };
+
+  var onMassageCloseMousedown = function (massageBlock) {
+    return function (evt) {
+      if (evt.which === window.util.MOUSE_LEFT_KEYCODE) {
+        massageBlock.remove();
+      }
     };
   };
 
@@ -78,8 +84,6 @@
     return function (evt) {
       if (evt.keyCode === window.util.ESC_KEYCODE) {
         massageBlock.remove();
-        document.removeEventListener('keydown', onMessageEscPress);
-        document.removeEventListener('mousedown', onMassageCloseClick);
       }
     };
   };
@@ -93,8 +97,8 @@
     errorText.textContent = errorMessage;
     main.insertAdjacentElement('afterbegin', errorBlock);
     errorBtn.addEventListener('click', onMassageCloseClick(errorBlock));
-    document.addEventListener('mousedown', onMassageCloseClick(errorBlock));
-    document.addEventListener('keydown', onMessageEscPress(errorBlock));
+    errorBlock.addEventListener('mousedown', onMassageCloseMousedown(errorBlock));
+    errorBlock.addEventListener('keydown', onMessageEscPress(errorBlock));
     errorBlock.tabIndex = 1;
     errorBlock.focus();
   };
@@ -149,7 +153,7 @@
 
     getError: getError,
     loadUploadData: loadUploadData,
-    onMassageCloseClick: onMassageCloseClick,
+    onMassageCloseMousedown: onMassageCloseMousedown,
     onMessageEscPress: onMessageEscPress
   };
 })();

@@ -34,8 +34,10 @@
     var successBlock = successTemplateCopy.content.querySelector('.success');
 
     window.backend.main.insertAdjacentElement('afterbegin', successBlock);
-    document.addEventListener('click', window.backend.onMassageCloseClick(successBlock));
-    document.addEventListener('keydown', window.backend.onMessageEscPress(successBlock));
+    successBlock.addEventListener('click', window.backend.onMassageCloseMousedown(successBlock));
+    successBlock.addEventListener('keydown', window.backend.onMessageEscPress(successBlock));
+    successBlock.tabIndex = 1;
+    successBlock.focus();
   };
 
   var onButtonSubmit = function () {
