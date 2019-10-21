@@ -17,9 +17,8 @@
     NOTHING_FOUND: 404
   };
 
-  var requestAnswers = {
-    'STATUS_OK': 'Неверный запрос',
-    'USER_NOT_AUTHORIZED': 'Пользователь не авторизован',
+  var errorAnswers = {
+    'INVALID_REQUEST': 'Неверный запрос',
     'USER_NOT_AUTHORIZED': 'Пользователь не авторизован',
     'NOTHING_FOUND': 'Ничего не найдено',
     'DEFAULT_MESSAGE': 'Что-то пошло не так'
@@ -58,16 +57,16 @@
 
     switch (xhr.status) {
       case RequestStatus.INVALID_REQUEST :
-        errorMessage = requestAnswers.INVALID_REQUEST;
+        errorMessage = errorAnswers.INVALID_REQUEST;
         break;
       case RequestStatus.USER_NOT_AUTHORIZED :
-        errorMessage = requestAnswers.USER_NOT_AUTHORIZED;
+        errorMessage = errorAnswers.USER_NOT_AUTHORIZED;
         break;
       case RequestStatus.NOTHING_FOUND :
-        errorMessage = requestAnswers.NOTHING_FOUND;
+        errorMessage = errorAnswers.NOTHING_FOUND;
         break;
       default :
-        errorMessage = requestAnswers.DEFAULT_MESSAGE;
+        errorMessage = errorAnswers.DEFAULT_MESSAGE;
     }
 
     return {
