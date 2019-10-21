@@ -4,7 +4,7 @@
   var mainPin = window.data.mainPin;
   var mainPinHalfWidth = mainPin.offsetWidth / 2;
   var MAIN_TAIL_HEIGHT = window.form.mainTailHeight;
-  var LocationParams = window.data.LocationParams;
+  var LocationParam = window.data.LocationParam;
 
   var onMainPinMousedown = function (evt) {
     evt.preventDefault();
@@ -33,17 +33,17 @@
       };
 
       switch (true) {
-        case currentPinPosition.x < LocationParams.MIN_X - mainPinHalfWidth :
-          currentPinPosition.x = LocationParams.MIN_X - mainPinHalfWidth;
+        case currentPinPosition.x < LocationParam.MIN_X - mainPinHalfWidth :
+          currentPinPosition.x = LocationParam.MIN_X - mainPinHalfWidth;
           break;
-        case currentPinPosition.x > LocationParams.MAX_X - mainPinHalfWidth :
-          currentPinPosition.x = LocationParams.MAX_X - mainPinHalfWidth;
+        case currentPinPosition.x > LocationParam.MAX_X - mainPinHalfWidth :
+          currentPinPosition.x = LocationParam.MAX_X - mainPinHalfWidth;
           break;
-        case currentPinPosition.y < LocationParams.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
-          currentPinPosition.y = LocationParams.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
+        case currentPinPosition.y < LocationParam.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
+          currentPinPosition.y = LocationParam.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
           break;
-        case currentPinPosition.y > LocationParams.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
-          currentPinPosition.y = LocationParams.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
+        case currentPinPosition.y > LocationParam.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
+          currentPinPosition.y = LocationParam.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
           break;
       }
 

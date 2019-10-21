@@ -9,11 +9,13 @@
   var METHOD_FOR_UPLOAD = 'POST';
 
   var REQUEST_TIMEOUT = 15000;
-  var STATUS_OK = 200;
 
-  var INVALID_REQUEST = 400;
-  var USER_NOT_AUTHORIZED = 401;
-  var NOTHING_FOUND = 404;
+  var RequestStatus = {
+    STATUS_OK: 200,
+    INVALID_REQUEST: 400,
+    USER_NOT_AUTHORIZED: 401,
+    NOTHING_FOUND: 404
+  };
 
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error');
@@ -47,13 +49,13 @@
     var errorMessage;
 
     switch (xhr.status) {
-      case INVALID_REQUEST :
+      case RequestStatus.INVALID_REQUEST :
         errorMessage = 'Неверный запрос';
         break;
-      case USER_NOT_AUTHORIZED :
+      case RequestStatus.USER_NOT_AUTHORIZED :
         errorMessage = 'Пользователь не авторизован';
         break;
-      case NOTHING_FOUND :
+      case RequestStatus.NOTHING_FOUND :
         errorMessage = 'Ничего не найдено';
         break;
       default :
@@ -115,7 +117,7 @@
 
   var setLoadCallback = function (xhr, onLoad, onError, method) {
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS_OK) {
+      if (xhr.status === RequestStatus.STATUS_OK) {
         switch (method) {
           case METHOD_FOR_LOAD :
             var pins = onLoad(xhr.response);
@@ -157,4 +159,3 @@
     onMessageEscPress: onMessageEscPress
   };
 })();
-

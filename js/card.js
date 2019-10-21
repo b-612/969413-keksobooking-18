@@ -70,7 +70,7 @@
     var typeString;
 
     typeString = prop.offer.type;
-    typeText = window.data.offerParams.TYPES_DICTIONARY[typeString];
+    typeText = window.data.OfferParam.TYPES_DICTIONARY[typeString];
     type.textContent = typeText;
   };
 

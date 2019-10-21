@@ -6,7 +6,7 @@
   var mapArea = document.querySelector('.map__pins');
   var mainPin = document.querySelector('.map__pin--main');
 
-  var OfferParams = {
+  var OfferParam = {
     TITLES: [
       'Двухэтажные апартаменты',
       'Домик в деревне',
@@ -83,7 +83,7 @@
     },
   };
 
-  var LocationParams = {
+  var LocationParam = {
     MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth),
     MAX_X: mapArea.offsetWidth,
     MIN_Y: 130,
@@ -128,8 +128,8 @@
 
   var getLocation = function () {
     var location = {
-      'x': window.util.getRandomInRange(LocationParams.MIN_X, LocationParams.MAX_X),
-      'y': window.util.getRandomInRange(LocationParams.MIN_Y, LocationParams.MAX_Y),
+      'x': window.util.getRandomInRange(LocationParam.MIN_X, LocationParam.MAX_X),
+      'y': window.util.getRandomInRange(LocationParam.MIN_Y, LocationParam.MAX_Y),
       'address': function () {
         return this.x + ', ' + this.y;
       }
@@ -143,36 +143,36 @@
   var getOffer = function () {
     var offer = {
       'title':
-        OfferParams.TITLES[window.util.getRandomNumber(OfferParams.TITLES.length - 1)],
+        OfferParam.TITLES[window.util.getRandomNumber(OfferParam.TITLES.length - 1)],
 
       'address':
         locations.address(),
 
       'price':
-        window.util.getRandomInRange(OfferParams.MIN_PRICE, OfferParams.MAX_PRICE),
+        window.util.getRandomInRange(OfferParam.MIN_PRICE, OfferParam.MAX_PRICE),
 
       'type':
-        OfferParams.TYPES[window.util.getRandomNumber(OfferParams.TYPES.length - 1)],
+        OfferParam.TYPES[window.util.getRandomNumber(OfferParam.TYPES.length - 1)],
 
       'rooms':
-        window.util.getRandomInRange(OfferParams.MIN_ROOMS, OfferParams.MAX_ROOMS),
+        window.util.getRandomInRange(OfferParam.MIN_ROOMS, OfferParam.MAX_ROOMS),
 
       'guests':
-        window.util.getRandomInRange(OfferParams.MIN_GUESTS, OfferParams.MAX_GUESTS),
+        window.util.getRandomInRange(OfferParam.MIN_GUESTS, OfferParam.MAX_GUESTS),
 
       'checkin':
-        OfferParams.CHECKINS[window.util.getRandomNumber(OfferParams.CHECKINS.length - 1)],
+        OfferParam.CHECKINS[window.util.getRandomNumber(OfferParam.CHECKINS.length - 1)],
 
       'checkout':
-        OfferParams.CHECKOUTS[window.util.getRandomNumber(OfferParams.CHECKOUTS.length - 1)],
+        OfferParam.CHECKOUTS[window.util.getRandomNumber(OfferParam.CHECKOUTS.length - 1)],
 
       'features':
-        getRandomList(OfferParams.FEATURES, OfferParams.MIN_FEATURES, OfferParams.maxFeatures()),
+        getRandomList(OfferParam.FEATURES, OfferParam.MIN_FEATURES, OfferParam.maxFeatures()),
 
       'description':
-        OfferParams.DESCRIPTIONS[window.util.getRandomNumber(OfferParams.DESCRIPTIONS.length - 1)],
+        OfferParam.DESCRIPTIONS[window.util.getRandomNumber(OfferParam.DESCRIPTIONS.length - 1)],
 
-      'photos': getRandomList(OfferParams.PHOTOS, OfferParams.MIN_PHOTOS, OfferParams.maxPhotos())
+      'photos': getRandomList(OfferParam.PHOTOS, OfferParam.MIN_PHOTOS, OfferParam.maxPhotos())
     };
 
     return offer;
@@ -204,10 +204,10 @@
 
   window.data = {
     addressesQuantiti: ADDRESSES_QUANTITI,
-    offerParams: OfferParams,
+    OfferParam: OfferParam,
     mainPin: mainPin,
     mapArea: mapArea,
-    LocationParams: LocationParams,
+    LocationParam: LocationParam,
     allBookingProps: getAllProps()
   };
 })();
