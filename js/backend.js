@@ -10,17 +10,12 @@
 
   var REQUEST_TIMEOUT = 15000;
 
-  var RequestStatus = {
-    STATUS_OK: 200,
-    INVALID_REQUEST: 400,
-    USER_NOT_AUTHORIZED: 401,
-    NOTHING_FOUND: 404
-  };
+  var STATUS_OK = 200;
 
-  var errorAnswers = {
-    'INVALID_REQUEST': 'Неверный запрос',
-    'USER_NOT_AUTHORIZED': 'Пользователь не авторизован',
-    'NOTHING_FOUND': 'Ничего не найдено',
+  var errorAnswersMap = {
+    '400': 'Неверный запрос',
+    '401': 'Пользователь не авторизован',
+    '404': 'Ничего не найдено',
     'DEFAULT_MESSAGE': 'Что-то пошло не так'
   };
 
@@ -53,20 +48,10 @@
   var getErrorMessage = function (xhr) {
     var errorPrew = 'Ошибка: ';
     var errorStatus = 'Статус ошибки: ' + xhr.status;
-    var errorMessage;
+    var errorMessage = errorAnswersMap[xhr.status];
 
-    switch (xhr.status) {
-      case RequestStatus.INVALID_REQUEST :
-        errorMessage = errorAnswers.INVALID_REQUEST;
-        break;
-      case RequestStatus.USER_NOT_AUTHORIZED :
-        errorMessage = errorAnswers.USER_NOT_AUTHORIZED;
-        break;
-      case RequestStatus.NOTHING_FOUND :
-        errorMessage = errorAnswers.NOTHING_FOUND;
-        break;
-      default :
-        errorMessage = errorAnswers.DEFAULT_MESSAGE;
+    if (!errorMessage) {
+      errorMessage = errorAnswersMap.DEFAULT_MESSAGE;
     }
 
     return {
@@ -124,7 +109,7 @@
 
   var setLoadCallback = function (xhr, onLoad, onError, method) {
     xhr.addEventListener('load', function () {
-      if (xhr.status === RequestStatus.STATUS_OK) {
+      if (xhr.status === STATUS_OK) {
         switch (method) {
           case METHOD_FOR_LOAD :
             var pins = onLoad(xhr.response);
