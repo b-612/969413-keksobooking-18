@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var ADDRESSES_QUANTITI = 8;
+  var ADDRESSES_QUANTITI = 5;
 
   var mapArea = document.querySelector('.map__pins');
   var mainPin = document.querySelector('.map__pin--main');

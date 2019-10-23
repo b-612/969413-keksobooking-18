@@ -59,4 +59,8 @@
   };
 
   setFormCallback();
+
+  window.formSubmit = {
+    removePins: removePins
+  };
 })();
