@@ -15,21 +15,28 @@
 
   var filters = window.form.mapFilters;
   var filterSelects = filters.querySelectorAll('select');
+  var filterCheckboxes = filters.querySelectorAll('.map__checkbox');
 
   var getSelectsValues = function () {
-    var selectedValues = [];
+    var selectsValues = [];
     filterSelects.forEach(function (current) {
-      selectedValues.push(current.value);
+      selectsValues.push(current.value);
     });
 
-    return selectedValues;
+    return selectsValues;
   };
 
-  var getPassingScore = function (selectedValues) {
+  var getPassingScore = function (selectsValues) {
     var passingScore = 0;
 
-    selectedValues.forEach(function (current) {
+    selectsValues.forEach(function (current) {
       if (current !== 'any') {
+        passingScore++;
+      }
+    });
+
+    filterCheckboxes.forEach(function (currentCheck) {
+      if (currentCheck.checked) {
         passingScore++;
       }
     });
@@ -56,6 +63,8 @@
 
   var getRank = function (currentOffer, selectedFilters) {
     var rank = 0;
+    var checkedFeatures = filters.querySelectorAll('.map__checkbox:checked');
+
     selectedFilters.forEach(function (currentSelect, index) {
       var offerParam = currentOffer.offer[offersFiltersMap[index]];
 
@@ -75,18 +84,29 @@
       }
     });
 
+    if (checkedFeatures.length > 0 && currentOffer.offer.features.length > 0) {
+      checkedFeatures.forEach(function (currentFeature) {
+        currentOffer.offer.features.forEach(function (currentOfferFeature) {
+          if (currentFeature.value === currentOfferFeature) {
+            rank++;
+          }
+        });
+      });
+    }
+
     return rank;
   };
 
   var onFilterSelectChange = function () {
-    var selectedValues = getSelectsValues();
-    var passingScore = getPassingScore(selectedValues);
+    var selectsValues = getSelectsValues();
+    var passingScore = getPassingScore(selectsValues);
+    var mapCard = document.querySelector('.map__card');
     var filteredOffers = [];
 
     switch (true) {
       case passingScore > 0 :
         window.backend.downloadPins.forEach(function (currentOffer) {
-          if (getRank(currentOffer, selectedValues) === passingScore) {
+          if (getRank(currentOffer, selectsValues) === passingScore) {
             filteredOffers.push(currentOffer);
           }
         });
@@ -98,11 +118,21 @@
     window.formSubmit.removePins();
     var pins = window.pins.renderFragmentPins(filteredOffers);
     window.pins.addPinsListeners(pins, filteredOffers);
+
+    if (mapCard) {
+      var cardCloseBtn = mapCard.querySelector('.popup__close');
+
+      window.card.removeMapCard(mapCard, cardCloseBtn);
+    }
   };
 
   var setSelectCallback = function () {
     filterSelects.forEach(function (currentSelect) {
       currentSelect.addEventListener('change', onFilterSelectChange);
+    });
+
+    filterCheckboxes.forEach(function (currentCheckbox) {
+      currentCheckbox.addEventListener('change', onFilterSelectChange);
     });
   };
 

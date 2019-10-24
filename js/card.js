@@ -149,6 +149,7 @@
 
   window.card = {
     makeMapPopup: makeMapPopup,
-    renderFragmentPopup: renderFragmentPopup
+    renderFragmentPopup: renderFragmentPopup,
+    removeMapCard: removeMapCard
   };
 })();
