@@ -97,7 +97,7 @@
     return rank;
   };
 
-  var onFilterSelectChange = function () {
+  var onFilterSelectChange = window.util.debounce(function () {
     var selectsValues = getSelectsValues();
     var passingScore = getPassingScore(selectsValues);
     var mapCard = document.querySelector('.map__card');
@@ -124,7 +124,7 @@
 
       window.card.removeMapCard(mapCard, cardCloseBtn);
     }
-  };
+  });
 
   var setSelectCallback = function () {
     filterSelects.forEach(function (currentSelect) {
