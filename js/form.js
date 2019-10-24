@@ -106,6 +106,7 @@
   setValidityCallback();
 
   window.form = {
+    mapFilters: mapFilters,
     adForm: adForm,
     formsFields: formsFields,
     mainTailHeight: MAIN_TAIL_HEIGHT,

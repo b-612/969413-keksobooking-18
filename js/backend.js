@@ -112,8 +112,10 @@
       if (xhr.status === STATUS_OK) {
         switch (method) {
           case METHOD_FOR_LOAD :
-            var pins = onLoad(xhr.response);
-            window.pins.addPinsListeners(pins, xhr.response);
+            var shuffledPins = window.util.shuffleArray(xhr.response);
+            var pins = onLoad(shuffledPins);
+            window.pins.addPinsListeners(pins, shuffledPins);
+            window.backend.downloadPins = shuffledPins;
             break;
           case METHOD_FOR_UPLOAD :
             onLoad(xhr);
