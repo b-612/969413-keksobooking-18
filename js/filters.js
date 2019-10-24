@@ -68,6 +68,10 @@
       default :
         filteredOffers = allOffers;
     }
+
+    window.formSubmit.removePins();
+    var pins = window.pins.renderFragmentPins(filteredOffers);
+    window.pins.addPinsListeners(pins, filteredOffers);
   };
 
   window.filters = {

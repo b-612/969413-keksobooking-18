@@ -14,15 +14,19 @@
     for (var i = 0; i < window.data.addressesQuantiti; i++) {
       var pin = pinTemplate.cloneNode(true);
       var pinImage = pin.querySelector('img');
-      var pinLocationX = allPins[i].location.x - pinWidth / 2;
-      var pinLocationY = allPins[i].location.y - pinHeight;
+      if (allPins[i]) {
+        var pinLocationX = allPins[i].location.x - pinWidth / 2;
+        var pinLocationY = allPins[i].location.y - pinHeight;
 
-      pin.setAttribute('style', 'left: ' + pinLocationX +
-        'px; ' + 'top: ' + pinLocationY + 'px');
-      pinImage.setAttribute('src', allPins[i].author.avatar);
-      pinImage.setAttribute('alt', allPins[i].offer.title);
+        pin.setAttribute('style', 'left: ' + pinLocationX +
+          'px; ' + 'top: ' + pinLocationY + 'px');
+        pinImage.setAttribute('src', allPins[i].author.avatar);
+        pinImage.setAttribute('alt', allPins[i].offer.title);
 
-      pins.push(pin);
+        pins.push(pin);
+      } else {
+        break;
+      }
     }
 
     return pins;
@@ -31,7 +35,11 @@
   var renderFragmentPins = function (allPins) {
     var pins = makePins(allPins);
     for (var i = 0; i < window.data.addressesQuantiti; i++) {
-      window.util.fragment.appendChild(pins[i]);
+      if (pins[i]) {
+        window.util.fragment.appendChild(pins[i]);
+      } else {
+        break;
+      }
     }
 
     pinsList.appendChild(window.util.fragment);
@@ -75,6 +83,7 @@
     map: map,
 
     showPins: showPins,
-    addPinsListeners: addPinsListeners
+    addPinsListeners: addPinsListeners,
+    renderFragmentPins: renderFragmentPins
   };
 })();
