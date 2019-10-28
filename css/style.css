@@ -762,6 +762,7 @@ fieldset {
       flex-wrap: wrap;
 }
 
+
 .ad-form__upload {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -813,6 +814,9 @@ fieldset {
   height: 70px;
 
   background-color: #e4e4de;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 5px;
 }
 
