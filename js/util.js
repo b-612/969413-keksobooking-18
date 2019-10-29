@@ -10,14 +10,6 @@
 
     fragment: document.createDocumentFragment(),
 
-    getRandomInRange: function (minNumber, maxNumber) {
-      return Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
-    },
-
-    getRandomNumber: function (maxNumber) {
-      return Math.floor(Math.random() * (maxNumber + 1));
-    },
-
     shuffleArray: function (array) {
       var temp;
       var j;

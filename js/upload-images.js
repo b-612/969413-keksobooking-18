@@ -32,6 +32,7 @@
 
                 photoWrapper.style.backgroundImage = 'url(\'' + reader.result + '\')';
                 upload.insertAdjacentElement('afterend', photoWrapper);
+                preview.remove();
                 break;
             }
           });

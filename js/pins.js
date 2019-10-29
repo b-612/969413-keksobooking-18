@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var ADDRESSES_QUANTITI = 5;
+
   var map = document.querySelector('.map');
   var pinTemplate = document.querySelector('#pin')
     .content.querySelector('.map__pin');
@@ -11,17 +13,17 @@
     var pinWidth = 50;
     var pinHeight = 70;
 
-    for (var i = 0; i < window.data.addressesQuantiti; i++) {
+    for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
       var pin = pinTemplate.cloneNode(true);
       var pinImage = pin.querySelector('img');
       if (allPins[i]) {
         var pinLocationX = allPins[i].location.x - pinWidth / 2;
         var pinLocationY = allPins[i].location.y - pinHeight;
 
-        pin.setAttribute('style', 'left: ' + pinLocationX +
-          'px; ' + 'top: ' + pinLocationY + 'px');
-        pinImage.setAttribute('src', allPins[i].author.avatar);
-        pinImage.setAttribute('alt', allPins[i].offer.title);
+        pin.style.left = pinLocationX + 'px';
+        pin.style.top = pinLocationY + 'px';
+        pinImage.src = allPins[i].author.avatar;
+        pinImage.alt = allPins[i].offer.title;
 
         pins.push(pin);
       } else {
@@ -34,9 +36,9 @@
 
   var renderFragmentPins = function (allPins) {
     var pins = makePins(allPins);
-    for (var i = 0; i < window.data.addressesQuantiti; i++) {
-      if (pins[i]) {
-        window.util.fragment.appendChild(pins[i]);
+    for (var j = 0; j < ADDRESSES_QUANTITI; j++) {
+      if (pins[j]) {
+        window.util.fragment.appendChild(pins[j]);
       } else {
         break;
       }
@@ -73,9 +75,9 @@
   };
 
   var addPinsListeners = function (mapPins, allPinsProp) {
-    for (var i = 0; i < mapPins.length; i++) {
-      mapPins[i].addEventListener('click', onPinClick(allPinsProp, i));
-      mapPins[i].addEventListener('keydown', onPinEnterPress(allPinsProp, i));
+    for (var k = 0; k < mapPins.length; k++) {
+      mapPins[k].addEventListener('click', onPinClick(allPinsProp, k));
+      mapPins[k].addEventListener('keydown', onPinEnterPress(allPinsProp, k));
     }
   };
 

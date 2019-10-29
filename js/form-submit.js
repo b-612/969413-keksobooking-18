@@ -5,6 +5,7 @@
 
   var form = window.form.adForm;
   var successTemplate = document.querySelector('#success');
+  var resetBtn = form.querySelector('.ad-form__reset');
 
   var cleanFields = function () {
     var textNumberFields = form.querySelectorAll('input[type=text], input[type=number], #description');
@@ -22,9 +23,9 @@
   var removePins = function () {
     var pins = window.pins.map.querySelectorAll('.map__pin');
 
-    for (var i = 0; i < pins.length; i++) {
-      if (!pins[i].classList.contains('map__pin--main')) {
-        pins[i].remove();
+    for (var j = 0; j < pins.length; j++) {
+      if (!pins[j].classList.contains('map__pin--main')) {
+        pins[j].remove();
       }
     }
   };
@@ -40,22 +41,30 @@
     successBlock.focus();
   };
 
-  var onButtonSubmit = function () {
+  var onFormReset = function () {
     removePins();
     cleanDisableFields();
+    window.form.resetFields();
+    window.filters.resetFilters();
     window.pins.map.classList.add('map--faded');
-    window.data.mainPin.setAttribute('style', MAIN_PIN_START_COORDS);
+    window.form.mainPin.style = MAIN_PIN_START_COORDS;
     window.form.adForm.classList.add('ad-form--disabled');
     window.form.setAddressInput(true);
     window.pageState.setPageConditionCallback();
+  };
+
+  var onFormSubmit = function () {
+    onFormReset();
     showSuccess();
   };
 
   var setFormCallback = function () {
     form.addEventListener('submit', function (evt) {
       evt.preventDefault();
-      window.backend.loadUploadData(window.backend.urlForUpload, onButtonSubmit, window.backend.getError, window.backend.methodForUpload, window.backend.requestTimeout, new FormData(form));
+      window.backend.loadUploadData(window.backend.urlForUpload, onFormSubmit, window.backend.getError, window.backend.methodForUpload, window.backend.requestTimeout, new FormData(form));
     });
+
+    resetBtn.addEventListener('click', onFormReset);
   };
 
   setFormCallback();

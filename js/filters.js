@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var START_FILTERS_VALUE = 'any';
+
   var Prices = {
     LOW: 9999,
     HIGH: 50001
@@ -17,6 +19,16 @@
   var filterSelects = filters.querySelectorAll('select');
   var filterCheckboxes = filters.querySelectorAll('.map__checkbox');
 
+  var resetFilters = function () {
+    filterSelects.forEach(function (currentSelect) {
+      currentSelect.value = START_FILTERS_VALUE;
+    });
+
+    filterCheckboxes.forEach(function (currentCheck) {
+      currentCheck.checked = false;
+    });
+  };
+
   var getSelectsValues = function () {
     var selectsValues = [];
     filterSelects.forEach(function (current) {
@@ -30,7 +42,7 @@
     var passingScore = 0;
 
     selectsValues.forEach(function (current) {
-      if (current !== 'any') {
+      if (current !== START_FILTERS_VALUE) {
         passingScore++;
       }
     });
@@ -139,6 +151,7 @@
   setSelectCallback();
 
   window.filters = {
-    onFilterSelectChange: onFilterSelectChange
+    onFilterSelectChange: onFilterSelectChange,
+    resetFilters: resetFilters
   };
 })();

@@ -1,10 +1,17 @@
 'use strict';
 
 (function () {
-  var mainPin = window.data.mainPin;
+  var mapArea = document.querySelector('.map__pins');
+  var mainPin = window.form.mainPin;
   var mainPinHalfWidth = mainPin.offsetWidth / 2;
   var MAIN_TAIL_HEIGHT = window.form.mainTailHeight;
-  var LocationParam = window.data.LocationParam;
+
+  var LocationParam = {
+    MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth),
+    MAX_X: mapArea.offsetWidth,
+    MIN_Y: 130,
+    MAX_Y: 630
+  };
 
   var onMainPinMousedown = function (evt) {
     evt.preventDefault();
@@ -47,9 +54,8 @@
           break;
       }
 
-      mainPin.setAttribute('style', 'left: '
-        + Math.round(currentPinPosition.x) + 'px; ' +
-        'top: ' + Math.round(currentPinPosition.y) + 'px');
+      mainPin.style.left = Math.round(currentPinPosition.x) + 'px';
+      mainPin.style.top = Math.round(currentPinPosition.y) + 'px';
 
       window.form.setAddressInput(false);
     };

@@ -1,11 +1,15 @@
 'use strict';
 
 (function () {
+  var TYPES_DICTIONARY = {
+    'palace': 'Дворец',
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalo': 'Бунгало'
+  };
+
   var mapPopupTemplate = document.querySelector('#card')
     .content.querySelector('.popup');
-
-
-  /* module3-task3 */
 
   var makeFeatures = function (array, feature, features) {
     var nextFeature;
@@ -14,7 +18,7 @@
 
     for (var i = 0; i < array.length; i++) {
       nextFeature = feature.cloneNode();
-      nextFeature.setAttribute('class', 'popup__feature popup__feature--' + array[i]);
+      nextFeature.className = 'popup__feature popup__feature--' + array[i];
       features.appendChild(nextFeature);
     }
   };
@@ -31,9 +35,9 @@
 
     photos.textContent = '';
 
-    for (var i = 0; i < array.length; i++) {
+    for (var j = 0; j < array.length; j++) {
       nextPhoto = photo.cloneNode();
-      nextPhoto.setAttribute('src', array[i]);
+      nextPhoto.src = array[j];
       photos.appendChild(nextPhoto);
     }
 
@@ -70,7 +74,7 @@
     var typeString;
 
     typeString = prop.offer.type;
-    typeText = window.data.OfferParam.TYPES_DICTIONARY[typeString];
+    typeText = TYPES_DICTIONARY[typeString];
     type.textContent = typeText;
   };
 
@@ -89,7 +93,7 @@
     var avatar = propPopup.querySelector('.popup__avatar');
 
     makePhotos(prop.offer.photos, photo, photos);
-    avatar.setAttribute('src', prop.author.avatar);
+    avatar.src = prop.author.avatar;
   };
 
   var makeMapPopup = function (prop) {
