@@ -49,6 +49,7 @@
     window.pins.map.classList.add('map--faded');
     window.form.mainPin.style = MAIN_PIN_START_COORDS;
     window.form.adForm.classList.add('ad-form--disabled');
+    window.uploadImages.resetImages();
     window.form.setAddressInput(true);
     window.pageState.setPageConditionCallback();
   };
