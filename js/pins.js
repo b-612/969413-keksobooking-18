@@ -16,16 +16,21 @@
     for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
       var pin = pinTemplate.cloneNode(true);
       var pinImage = pin.querySelector('img');
+
       if (allPins[i]) {
-        var pinLocationX = allPins[i].location.x - pinWidth / 2;
-        var pinLocationY = allPins[i].location.y - pinHeight;
+        if (allPins[i].offer) {
+          var pinLocationX = allPins[i].location.x - pinWidth / 2;
+          var pinLocationY = allPins[i].location.y - pinHeight;
 
-        pin.style.left = pinLocationX + 'px';
-        pin.style.top = pinLocationY + 'px';
-        pinImage.src = allPins[i].author.avatar;
-        pinImage.alt = allPins[i].offer.title;
+          pin.style.left = pinLocationX + 'px';
+          pin.style.top = pinLocationY + 'px';
+          pinImage.src = allPins[i].author.avatar;
+          pinImage.alt = allPins[i].offer.title;
 
-        pins.push(pin);
+          pins.push(pin);
+        } else {
+          continue;
+        }
       } else {
         break;
       }
@@ -60,8 +65,15 @@
     return pins;
   };
 
+  var setActivePin = function (pin) {
+    if (pin.type === 'button') {
+      pin.classList.add('map__pin--active');
+    }
+  };
+
   var onPinClick = function (allPins, i) {
-    return function () {
+    return function (evt) {
+      setActivePin(evt.currentTarget);
       window.card.renderFragmentPopup(window.card.makeMapPopup(allPins[i]));
     };
   };
@@ -69,6 +81,7 @@
   var onPinEnterPress = function (allPins, i) {
     return function (evt) {
       if (evt.keyCode === window.util.ENTER_KEYCODE) {
+        setActivePin(evt.currentTarget);
         window.card.renderFragmentPopup(window.card.makeMapPopup(allPins[i]));
       }
     };
@@ -83,6 +96,7 @@
 
   window.pins = {
     map: map,
+    pinsList: pinsList,
 
     showPins: showPins,
     addPinsListeners: addPinsListeners,
