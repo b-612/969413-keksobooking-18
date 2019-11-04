@@ -2,9 +2,9 @@
 
 (function () {
   var activatePage = function (allDownloadPins) {
-    window.form.adForm.classList.remove('ad-form--disabled');
-    var allPins = window.pins.showPins(allDownloadPins);
-    window.form.toggleFormsFields(window.form.formsFields, true);
+    window.form.adProfile.classList.remove('ad-form--disabled');
+    var allPins = window.pins.showMarkers(allDownloadPins);
+    window.form.toggleProfilesFields(window.form.profilesFields, true);
     window.form.setAddressInput(false);
     window.form.mainPin.removeEventListener('mousedown', onMainPinMousedown);
     window.form.mainPin.removeEventListener('keydown', onMainPinEnterKeydown);
@@ -32,6 +32,6 @@
   setPageConditionCallback();
 
   window.pageState = {
-    setPageConditionCallback: setPageConditionCallback
+    setConditionCallback: setPageConditionCallback
   };
 })();

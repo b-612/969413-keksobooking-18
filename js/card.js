@@ -144,7 +144,7 @@
   };
 
   var removeMapCard = function (mapCard, cardCloseBtn) {
-    var pins = Array.from(window.pins.pinsList.querySelectorAll('.map__pin'));
+    var pins = Array.from(window.pins.markersList.querySelectorAll('.map__pin'));
 
     mapCard.remove();
     cardCloseBtn.removeEventListener('click', onCardCloseBtnClick);
@@ -193,6 +193,6 @@
   window.card = {
     makeMapPopup: makeMapPopup,
     renderFragmentPopup: renderFragmentPopup,
-    removeMapCard: removeMapCard
+    removePopup: removeMapCard
   };
 })();

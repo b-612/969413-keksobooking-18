@@ -135,11 +135,11 @@
   window.form = {
     mainPin: mainPin,
     mapFilters: mapFilters,
-    adForm: adForm,
-    formsFields: formsFields,
+    adProfile: adForm,
+    profilesFields: formsFields,
     mainTailHeight: MAIN_TAIL_HEIGHT,
 
-    toggleFormsFields: toggleFormsFields,
+    toggleProfilesFields: toggleFormsFields,
     setAddressInput: setAddressInput,
     resetFields: resetFields
   };

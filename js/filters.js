@@ -132,13 +132,13 @@
     }
 
     window.formSubmit.removePins();
-    var pins = window.pins.renderFragmentPins(filteredOffers);
-    window.pins.addPinsListeners(pins, filteredOffers);
+    var pins = window.pins.renderFragmentMarkers(filteredOffers);
+    window.pins.addMarkersListeners(pins, filteredOffers);
 
     if (mapCard) {
       var cardCloseBtn = mapCard.querySelector('.popup__close');
 
-      window.card.removeMapCard(mapCard, cardCloseBtn);
+      window.card.removePopup(mapCard, cardCloseBtn);
     }
   });
 
@@ -155,7 +155,6 @@
   setSelectCallback();
 
   window.filters = {
-    onFilterSelectChange: onFilterSelectChange,
-    resetFilters: resetFilters
+    resetConditions: resetFilters
   };
 })();

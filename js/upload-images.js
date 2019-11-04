@@ -4,7 +4,7 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var AVATAR_PREVIEW_IMG = 'img/muffin-grey.svg';
 
-  var form = window.form.adForm;
+  var form = window.form.adProfile;
   var avatarChooser = form.querySelector('.ad-form__field input[name=avatar]');
   var avatarPreview = form.querySelector('.ad-form-header__preview img');
   var housingPhotoChooser = form.querySelector('.ad-form__upload input[name=images]');
@@ -69,6 +69,6 @@
   setUploadImgCallback(housingPhotoChooser, emptyPhoto, 'create');
 
   window.uploadImages = {
-    resetImages: resetImages
+    resetPictures: resetImages
   };
 })();

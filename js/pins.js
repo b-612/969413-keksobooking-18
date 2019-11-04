@@ -100,10 +100,10 @@
 
   window.pins = {
     map: map,
-    pinsList: pinsList,
+    markersList: pinsList,
 
-    showPins: showPins,
-    addPinsListeners: addPinsListeners,
-    renderFragmentPins: renderFragmentPins
+    showMarkers: showPins,
+    addMarkersListeners: addPinsListeners,
+    renderFragmentMarkers: renderFragmentPins
   };
 })();

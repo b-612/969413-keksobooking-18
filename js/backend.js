@@ -114,7 +114,7 @@
           case METHOD_FOR_LOAD :
             var shuffledPins = window.util.shuffleArray(xhr.response);
             var pins = onLoad(shuffledPins);
-            window.pins.addPinsListeners(pins, shuffledPins);
+            window.pins.addMarkersListeners(pins, shuffledPins);
             window.backend.downloadPins = shuffledPins;
             break;
           case METHOD_FOR_UPLOAD :
