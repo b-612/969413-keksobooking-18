@@ -96,13 +96,17 @@
       }
     });
 
+    var getRankFromFeature = function (currentFeature) {
+      currentOffer.offer.features.forEach(function (currentOfferFeature) {
+        if (currentFeature.value === currentOfferFeature) {
+          rank++;
+        }
+      });
+    };
+
     if (checkedFeatures.length > 0 && currentOffer.offer.features.length > 0) {
       checkedFeatures.forEach(function (currentFeature) {
-        currentOffer.offer.features.forEach(function (currentOfferFeature) {
-          if (currentFeature.value === currentOfferFeature) {
-            rank++;
-          }
-        });
+        getRankFromFeature(currentFeature);
       });
     }
 

@@ -4,6 +4,7 @@
   var mapArea = document.querySelector('.map__pins');
   var mainPin = window.form.mainPin;
   var mainPinHalfWidth = mainPin.offsetWidth / 2;
+  var isHover;
 
   var LocationParams = {
     minX: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth),
@@ -11,6 +12,20 @@
     minY: 130,
     maxY: 630
   };
+
+  var addMouseoverCallbacks = function () {
+    mapArea.addEventListener('mouseover', function () {
+      isHover = true;
+    });
+
+    mainPin.addEventListener('mouseout', function () {
+      mapArea.addEventListener('mouseout', function () {
+        isHover = false;
+      });
+    });
+  };
+
+  addMouseoverCallbacks();
 
   var onMainPinMousedown = function (evt) {
     evt.preventDefault();
@@ -23,9 +38,14 @@
     var onMainPinMousemove = function (mouseMoveEvt) {
       mouseMoveEvt.preventDefault();
 
-      var shift = {
+      var shift;
+
+      shift = isHover ? {
         x: startCoords.x - mouseMoveEvt.clientX,
         y: startCoords.y - mouseMoveEvt.clientY
+      } : {
+        x: 0,
+        y: 0
       };
 
       startCoords = {
