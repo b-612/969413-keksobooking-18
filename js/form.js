@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
-  var MAIN_TAIL_HEIGHT = 16;
-
   var CAPACITY_ERRORS = [
     'Одна комната для одного гостя',
     'Две комнаты для одного, или двоих гостей',
     'Три комнаты для одного, двоих, или троих гостей',
     'Не для гостей'
   ];
+
+  var MAIN_TAIL_HEIGHT = 16;
 
   var HousingTypesPricesMap = {
     'bungalo': 0,
@@ -17,7 +17,7 @@
     'palace': 10000
   };
 
-  var startFieldsValuesMap = {
+  var StartFieldsValuesMap = {
     'type': 'flat',
     'price': 1000,
     'timein': '12:00',
@@ -36,7 +36,7 @@
   var mapFilters = document.querySelector('.map__filters');
   var selectRooms = adForm.querySelector('#room_number');
   var selectCapasity = adForm.querySelector('#capacity');
-  var adFormFeatures = adForm.querySelectorAll('input[name=features]');
+  var adFormFeatures = Array.from(adForm.querySelectorAll('input[name=features]'));
 
   var dischargedFields = [
     housingType,
@@ -48,25 +48,21 @@
   ];
 
   var formsFields = [
-    adForm.querySelectorAll('fieldset'),
-    mapFilters.querySelectorAll('input'),
-    mapFilters.querySelectorAll('select')
+    Array.from(adForm.querySelectorAll('fieldset')),
+    Array.from(mapFilters.querySelectorAll('input')),
+    Array.from(mapFilters.querySelectorAll('select'))
   ];
 
   var toggleFields = function (fields, isDisabled) {
-    for (var i = 0; i < fields.length; i++) {
-      if (!isDisabled) {
-        fields[i].disabled = true;
-      } else {
-        fields[i].disabled = false;
-      }
-    }
+    fields.forEach(function (current) {
+      current.disabled = !isDisabled ? true : false;
+    });
   };
 
   var toggleFormsFields = function (fieldsArray, isDisabled) {
-    for (var j = 0; j < fieldsArray.length; j++) {
-      toggleFields(fieldsArray[j], isDisabled);
-    }
+    fieldsArray.forEach(function (current) {
+      toggleFields(current, isDisabled);
+    });
   };
 
   var setAddressInput = function (isDisabled) {
@@ -74,11 +70,8 @@
     var mainPinX = parseInt(mainPin.style.left, 10);
     var mainPinY = parseInt(mainPin.style.top, 10);
 
-    if (isDisabled) {
-      mainPinY = mainPinY + Math.round(mainPin.offsetHeight / 2);
-    } else {
-      mainPinY = mainPinY + Math.round(mainPin.offsetHeight) + MAIN_TAIL_HEIGHT;
-    }
+    mainPinY = isDisabled ? mainPinY + Math.round(mainPin.offsetHeight / 2) :
+      mainPinY + Math.round(mainPin.offsetHeight) + MAIN_TAIL_HEIGHT;
 
     addressInput.value = (mainPinX + Math.floor(mainPin.offsetWidth / 2)) +
       ', ' + mainPinY;
@@ -124,9 +117,9 @@
   var resetFields = function () {
     dischargedFields.forEach(function (currentField) {
       if (currentField.id === 'price') {
-        currentField.placeholder = startFieldsValuesMap[currentField.id];
+        currentField.placeholder = StartFieldsValuesMap[currentField.id];
       } else {
-        currentField.value = startFieldsValuesMap[currentField.id];
+        currentField.value = StartFieldsValuesMap[currentField.id];
       }
     });
 

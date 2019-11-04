@@ -8,7 +8,7 @@
     HIGH: 50001
   };
 
-  var offersFiltersMap = {
+  var OffersFiltersMap = {
     '0': 'type',
     '1': 'price',
     '2': 'rooms',
@@ -16,8 +16,8 @@
   };
 
   var filters = window.form.mapFilters;
-  var filterSelects = filters.querySelectorAll('select');
-  var filterCheckboxes = filters.querySelectorAll('.map__checkbox');
+  var filterSelects = Array.from(filters.querySelectorAll('select'));
+  var filterCheckboxes = Array.from(filters.querySelectorAll('.map__checkbox'));
 
   var resetFilters = function () {
     filterSelects.forEach(function (currentSelect) {
@@ -75,12 +75,12 @@
 
   var getRank = function (currentOffer, selectedFilters) {
     var rank = 0;
-    var checkedFeatures = filters.querySelectorAll('.map__checkbox:checked');
+    var checkedFeatures = Array.from(filters.querySelectorAll('.map__checkbox:checked'));
 
     selectedFilters.forEach(function (currentSelect, index) {
-      var offerParam = currentOffer.offer[offersFiltersMap[index]];
+      var offerParam = currentOffer.offer[OffersFiltersMap[index]];
 
-      if (typeof offerParam === 'number' && offersFiltersMap[index] !== 'price') {
+      if (typeof offerParam === 'number' && OffersFiltersMap[index] !== 'price') {
         currentSelect = Number(currentSelect);
       }
 
@@ -88,7 +88,7 @@
         rank++;
       }
 
-      if (offersFiltersMap[index] === 'price') {
+      if (OffersFiltersMap[index] === 'price') {
         var priceLevel = getPriceLevel(currentOffer.offer.price);
         if (priceLevel === currentSelect) {
           rank++;

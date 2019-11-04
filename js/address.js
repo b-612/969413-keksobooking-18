@@ -4,13 +4,12 @@
   var mapArea = document.querySelector('.map__pins');
   var mainPin = window.form.mainPin;
   var mainPinHalfWidth = mainPin.offsetWidth / 2;
-  var MAIN_TAIL_HEIGHT = window.form.mainTailHeight;
 
-  var LocationParam = {
-    MIN_X: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth),
-    MAX_X: mapArea.offsetWidth,
-    MIN_Y: 130,
-    MAX_Y: 630
+  var LocationParams = {
+    minX: Math.floor(mapArea.offsetWidth - mapArea.offsetWidth),
+    maxX: mapArea.offsetWidth,
+    minY: 130,
+    maxY: 630
   };
 
   var onMainPinMousedown = function (evt) {
@@ -40,17 +39,17 @@
       };
 
       switch (true) {
-        case currentPinPosition.x < LocationParam.MIN_X - mainPinHalfWidth :
-          currentPinPosition.x = LocationParam.MIN_X - mainPinHalfWidth;
+        case currentPinPosition.x < LocationParams.minX - mainPinHalfWidth :
+          currentPinPosition.x = LocationParams.minX - mainPinHalfWidth;
           break;
-        case currentPinPosition.x > LocationParam.MAX_X - mainPinHalfWidth :
-          currentPinPosition.x = LocationParam.MAX_X - mainPinHalfWidth;
+        case currentPinPosition.x > LocationParams.maxX - mainPinHalfWidth :
+          currentPinPosition.x = LocationParams.maxX - mainPinHalfWidth;
           break;
-        case currentPinPosition.y < LocationParam.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
-          currentPinPosition.y = LocationParam.MIN_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
+        case currentPinPosition.y < LocationParams.minY - (mainPin.offsetHeight + window.form.mainTailHeight) :
+          currentPinPosition.y = LocationParams.minY - (mainPin.offsetHeight + window.form.mainTailHeight);
           break;
-        case currentPinPosition.y > LocationParam.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT) :
-          currentPinPosition.y = LocationParam.MAX_Y - (mainPin.offsetHeight + MAIN_TAIL_HEIGHT);
+        case currentPinPosition.y > LocationParams.maxY - (mainPin.offsetHeight + window.form.mainTailHeight) :
+          currentPinPosition.y = LocationParams.maxY - (mainPin.offsetHeight + window.form.mainTailHeight);
           break;
       }
 

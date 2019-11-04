@@ -2,6 +2,8 @@
 
 (function () {
   var ADDRESSES_QUANTITI = 5;
+  var PIN_WIDTH = 50;
+  var PIN_HEIGHT = 70;
 
   var map = document.querySelector('.map');
   var pinTemplate = document.querySelector('#pin')
@@ -10,8 +12,6 @@
 
   var makePins = function (allPins) {
     var pins = [];
-    var pinWidth = 50;
-    var pinHeight = 70;
 
     for (var i = 0; i < ADDRESSES_QUANTITI; i++) {
       var pin = pinTemplate.cloneNode(true);
@@ -19,8 +19,8 @@
 
       if (allPins[i]) {
         if (allPins[i].offer) {
-          var pinLocationX = allPins[i].location.x - pinWidth / 2;
-          var pinLocationY = allPins[i].location.y - pinHeight;
+          var pinLocationX = allPins[i].location.x - PIN_WIDTH / 2;
+          var pinLocationY = allPins[i].location.y - PIN_HEIGHT;
 
           pin.style.left = pinLocationX + 'px';
           pin.style.top = pinLocationY + 'px';
@@ -88,10 +88,10 @@
   };
 
   var addPinsListeners = function (mapPins, allPinsProp) {
-    for (var k = 0; k < mapPins.length; k++) {
-      mapPins[k].addEventListener('click', onPinClick(allPinsProp, k));
-      mapPins[k].addEventListener('keydown', onPinEnterPress(allPinsProp, k));
-    }
+    mapPins.forEach(function (current, i) {
+      current.addEventListener('click', onPinClick(allPinsProp, i));
+      current.addEventListener('keydown', onPinEnterPress(allPinsProp, i));
+    });
   };
 
   window.pins = {

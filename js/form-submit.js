@@ -8,11 +8,11 @@
   var resetBtn = form.querySelector('.ad-form__reset');
 
   var cleanFields = function () {
-    var textNumberFields = form.querySelectorAll('input[type=text], input[type=number], #description');
+    var textNumberFields = Array.from(form.querySelectorAll('input[type=text], input[type=number], #description'));
 
-    for (var i = 0; i < textNumberFields.length; i++) {
-      textNumberFields[i].value = '';
-    }
+    textNumberFields.forEach(function (current) {
+      current.value = '';
+    });
   };
 
   var cleanDisableFields = function () {
@@ -21,13 +21,13 @@
   };
 
   var removePins = function () {
-    var pins = window.pins.map.querySelectorAll('.map__pin');
+    var pins = Array.from(window.pins.map.querySelectorAll('.map__pin'));
 
-    for (var j = 0; j < pins.length; j++) {
-      if (!pins[j].classList.contains('map__pin--main')) {
-        pins[j].remove();
+    pins.forEach(function (current) {
+      if (!current.classList.contains('map__pin--main')) {
+        current.remove();
       }
-    }
+    });
   };
 
   var showSuccess = function () {
@@ -35,7 +35,7 @@
     var successBlock = successTemplateCopy.content.querySelector('.success');
 
     window.backend.main.insertAdjacentElement('afterbegin', successBlock);
-    successBlock.addEventListener('click', window.backend.onMassageCloseMousedown(successBlock));
+    successBlock.addEventListener('click', window.backend.onMessageCloseMousedown(successBlock));
     successBlock.addEventListener('keydown', window.backend.onMessageEscPress(successBlock));
     successBlock.tabIndex = 1;
     successBlock.focus();

@@ -12,7 +12,7 @@
 
   var STATUS_OK = 200;
 
-  var errorAnswersMap = {
+  var ErrorAnswersMap = {
     '400': 'Неверный запрос',
     '401': 'Пользователь не авторизован',
     '404': 'Ничего не найдено',
@@ -48,10 +48,10 @@
   var getErrorMessage = function (xhr) {
     var errorPrew = 'Ошибка: ';
     var errorStatus = 'Статус ошибки: ' + xhr.status;
-    var errorMessage = errorAnswersMap[xhr.status];
+    var errorMessage = ErrorAnswersMap[xhr.status];
 
     if (!errorMessage) {
-      errorMessage = errorAnswersMap.DEFAULT_MESSAGE;
+      errorMessage = ErrorAnswersMap.DEFAULT_MESSAGE;
     }
 
     return {
@@ -60,13 +60,13 @@
     };
   };
 
-  var onMassageCloseClick = function (massageBlock) {
+  var onMessageCloseClick = function (massageBlock) {
     return function () {
       massageBlock.remove();
     };
   };
 
-  var onMassageCloseMousedown = function (massageBlock) {
+  var onMessageCloseMousedown = function (massageBlock) {
     return function (evt) {
       if (evt.which === window.util.MOUSE_LEFT_KEYCODE) {
         massageBlock.remove();
@@ -90,8 +90,8 @@
 
     errorText.textContent = errorMessage;
     main.insertAdjacentElement('afterbegin', errorBlock);
-    errorBtn.addEventListener('click', onMassageCloseClick(errorBlock));
-    errorBlock.addEventListener('mousedown', onMassageCloseMousedown(errorBlock));
+    errorBtn.addEventListener('click', onMessageCloseClick(errorBlock));
+    errorBlock.addEventListener('mousedown', onMessageCloseMousedown(errorBlock));
     errorBlock.addEventListener('keydown', onMessageEscPress(errorBlock));
     errorBlock.tabIndex = 1;
     errorBlock.focus();
@@ -149,7 +149,7 @@
 
     getError: getError,
     loadUploadData: loadUploadData,
-    onMassageCloseMousedown: onMassageCloseMousedown,
+    onMessageCloseMousedown: onMessageCloseMousedown,
     onMessageEscPress: onMessageEscPress
   };
 })();

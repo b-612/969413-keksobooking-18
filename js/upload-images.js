@@ -45,7 +45,7 @@
   };
 
   var resetImages = function () {
-    var photos = form.querySelectorAll('.ad-form__photo');
+    var photos = Array.from(form.querySelectorAll('.ad-form__photo'));
 
     avatarPreview.src = AVATAR_PREWIEW_IMG;
 

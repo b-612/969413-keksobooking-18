@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var typesMap = {
+  var TypesMap = {
     'palace': 'Дворец',
     'flat': 'Квартира',
     'house': 'Дом',
@@ -21,11 +21,11 @@
 
       features.textContent = '';
 
-      for (var i = 0; i < array.length; i++) {
+      array.forEach(function (currentElem) {
         nextFeature = feature.cloneNode();
-        nextFeature.className = 'popup__feature popup__feature--' + array[i];
+        nextFeature.className = 'popup__feature popup__feature--' + currentElem;
         features.appendChild(nextFeature);
-      }
+      });
     } else {
       hideEmptyField(features);
     }
@@ -44,11 +44,11 @@
 
       photos.textContent = '';
 
-      for (var j = 0; j < array.length; j++) {
+      array.forEach(function (currentElem) {
         nextPhoto = photo.cloneNode();
-        nextPhoto.src = array[j];
+        nextPhoto.src = currentElem;
         photos.appendChild(nextPhoto);
-      }
+      });
     } else {
       hideEmptyField(photos);
     }
@@ -97,7 +97,7 @@
 
     if (prop.offer.type !== '') {
       typeString = prop.offer.type;
-      typeText = typesMap[typeString];
+      typeText = TypesMap[typeString];
       type.textContent = typeText;
     } else {
       hideEmptyField(type);
@@ -144,7 +144,7 @@
   };
 
   var removeMapCard = function (mapCard, cardCloseBtn) {
-    var pins = window.pins.pinsList.querySelectorAll('.map__pin');
+    var pins = Array.from(window.pins.pinsList.querySelectorAll('.map__pin'));
 
     mapCard.remove();
     cardCloseBtn.removeEventListener('click', onCardCloseBtnClick);
