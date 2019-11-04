@@ -2,7 +2,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var AVATAR_PREWIEW_IMG = 'img/muffin-grey.svg';
+  var AVATAR_PREVIEW_IMG = 'img/muffin-grey.svg';
 
   var form = window.form.adForm;
   var avatarChooser = form.querySelector('.ad-form__field input[name=avatar]');
@@ -56,7 +56,7 @@
   var resetImages = function () {
     var photos = Array.from(form.querySelectorAll('.ad-form__photo'));
 
-    avatarPreview.src = AVATAR_PREWIEW_IMG;
+    avatarPreview.src = AVATAR_PREVIEW_IMG;
 
     photos.forEach(function (currentPhoto) {
       currentPhoto.remove();
