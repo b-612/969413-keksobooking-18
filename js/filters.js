@@ -77,6 +77,14 @@
     var rank = 0;
     var checkedFeatures = Array.from(filters.querySelectorAll('.map__checkbox:checked'));
 
+    var getRankFromFeature = function (currentFeature) {
+      currentOffer.offer.features.forEach(function (currentOfferFeature) {
+        if (currentFeature.value === currentOfferFeature) {
+          rank++;
+        }
+      });
+    };
+
     selectedFilters.forEach(function (currentSelect, index) {
       var offerParam = currentOffer.offer[OffersFiltersMap[index]];
 
@@ -95,14 +103,6 @@
         }
       }
     });
-
-    var getRankFromFeature = function (currentFeature) {
-      currentOffer.offer.features.forEach(function (currentOfferFeature) {
-        if (currentFeature.value === currentOfferFeature) {
-          rank++;
-        }
-      });
-    };
 
     if (checkedFeatures.length > 0 && currentOffer.offer.features.length > 0) {
       checkedFeatures.forEach(function (currentFeature) {

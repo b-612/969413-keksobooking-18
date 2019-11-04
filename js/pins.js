@@ -10,6 +10,18 @@
     .content.querySelector('.map__pin');
   var pinsList = document.querySelector('.map__pins');
 
+  var setPinParams = function (allPins, pin, pins, pinImage, index) {
+    var pinLocationX = allPins[index].location.x - PIN_WIDTH / 2;
+    var pinLocationY = allPins[index].location.y - PIN_HEIGHT;
+
+    pin.style.left = pinLocationX + 'px';
+    pin.style.top = pinLocationY + 'px';
+    pinImage.src = allPins[index].author.avatar;
+    pinImage.alt = allPins[index].offer.title;
+
+    pins.push(pin);
+  };
+
   var makePins = function (allPins) {
     var pins = [];
 
@@ -19,15 +31,7 @@
 
       if (allPins[i]) {
         if (allPins[i].offer) {
-          var pinLocationX = allPins[i].location.x - PIN_WIDTH / 2;
-          var pinLocationY = allPins[i].location.y - PIN_HEIGHT;
-
-          pin.style.left = pinLocationX + 'px';
-          pin.style.top = pinLocationY + 'px';
-          pinImage.src = allPins[i].author.avatar;
-          pinImage.alt = allPins[i].offer.title;
-
-          pins.push(pin);
+          setPinParams(allPins, pin, pins, pinImage, i);
         } else {
           continue;
         }

@@ -11,6 +11,31 @@
   var emptyPhoto = form.querySelector('.ad-form__photo');
   var upload = form.querySelector('.ad-form__upload');
 
+  var createImage = function (preview, reader) {
+    var photoWrapper = preview.cloneNode();
+
+    photoWrapper.style.backgroundImage = 'url(\'' + reader.result + '\')';
+    upload.insertAdjacentElement('afterend', photoWrapper);
+    preview.remove();
+  };
+
+  var readFile = function (preview, setOrCreate, file) {
+    var reader = new FileReader();
+
+    reader.addEventListener('load', function () {
+      switch (true) {
+        case setOrCreate === 'set' :
+          preview.src = reader.result;
+          break;
+        case setOrCreate === 'create' :
+          createImage(preview, reader);
+          break;
+      }
+    });
+
+    reader.readAsDataURL(file);
+  };
+
   var setUploadImgCallback = function (fileChooser, preview, setOrCreate) {
     fileChooser.addEventListener('change', function () {
       var file = fileChooser.files[0];
@@ -22,23 +47,7 @@
         });
 
         if (isImage) {
-          var reader = new FileReader();
-          reader.addEventListener('load', function () {
-            switch (true) {
-              case setOrCreate === 'set' :
-                preview.src = reader.result;
-                break;
-              case setOrCreate === 'create' :
-                var photoWrapper = preview.cloneNode();
-
-                photoWrapper.style.backgroundImage = 'url(\'' + reader.result + '\')';
-                upload.insertAdjacentElement('afterend', photoWrapper);
-                preview.remove();
-                break;
-            }
-          });
-
-          reader.readAsDataURL(file);
+          readFile(preview, setOrCreate, file);
         }
       }
     });
