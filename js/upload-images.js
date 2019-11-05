@@ -23,13 +23,10 @@
     var reader = new FileReader();
 
     reader.addEventListener('load', function () {
-      switch (true) {
-        case setOrCreate === 'set' :
-          preview.src = reader.result;
-          break;
-        case setOrCreate === 'create' :
-          createImage(preview, reader);
-          break;
+      if (setOrCreate === 'set') {
+        preview.src = reader.result;
+      } else {
+        createImage(preview, reader);
       }
     });
 

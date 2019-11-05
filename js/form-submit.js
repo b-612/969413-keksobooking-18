@@ -24,7 +24,7 @@
     var pins = Array.from(window.pins.map.querySelectorAll('.map__pin'));
 
     pins.forEach(function (current) {
-      if (!current.classList.contains('map__pin--main')) {
+      if (current !== window.form.mainPin) {
         current.remove();
       }
     });

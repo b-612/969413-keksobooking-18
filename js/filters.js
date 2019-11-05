@@ -119,16 +119,14 @@
     var mapCard = document.querySelector('.map__card');
     var filteredOffers = [];
 
-    switch (true) {
-      case passingScore > 0 :
-        window.backend.downloadPins.forEach(function (currentOffer) {
-          if (getRank(currentOffer, selectsValues) === passingScore) {
-            filteredOffers.push(currentOffer);
-          }
-        });
-        break;
-      default :
-        filteredOffers = window.backend.downloadPins;
+    if (passingScore > 0) {
+      window.backend.downloadPins.forEach(function (currentOffer) {
+        if (getRank(currentOffer, selectsValues) === passingScore) {
+          filteredOffers.push(currentOffer);
+        }
+      });
+    } else {
+      filteredOffers = window.backend.downloadPins;
     }
 
     window.formSubmit.removePins();

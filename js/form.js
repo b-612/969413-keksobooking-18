@@ -55,7 +55,7 @@
 
   var toggleFields = function (fields, isDisabled) {
     fields.forEach(function (current) {
-      current.disabled = !isDisabled ? true : false;
+      current.disabled = !isDisabled;
     });
   };
 

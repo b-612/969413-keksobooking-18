@@ -33,13 +33,10 @@
     xhr.timeout = timeout;
     xhr.open(method, url);
 
-    switch (data) {
-      case DATA_FOR_LOAD :
-        xhr.send();
-        break;
-      default :
-        xhr.send(data);
-        break;
+    if (data === DATA_FOR_LOAD) {
+      xhr.send();
+    } else {
+      xhr.send(data);
     }
 
     return xhr.response;
@@ -110,16 +107,13 @@
   var setLoadCallback = function (xhr, onLoad, onError, method) {
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS_OK) {
-        switch (method) {
-          case METHOD_FOR_LOAD :
-            var shuffledPins = window.util.shuffleArray(xhr.response);
-            var pins = onLoad(shuffledPins);
-            window.pins.addMarkersListeners(pins, shuffledPins);
-            window.backend.downloadPins = shuffledPins;
-            break;
-          case METHOD_FOR_UPLOAD :
-            onLoad(xhr);
-            break;
+        if (method === METHOD_FOR_LOAD) {
+          var shuffledPins = window.util.shuffleArray(xhr.response);
+          var pins = onLoad(shuffledPins);
+          window.pins.addMarkersListeners(pins, shuffledPins);
+          window.backend.downloadPins = shuffledPins;
+        } else {
+          onLoad(xhr);
         }
       } else {
         onError(getErrorMessage(xhr).message);

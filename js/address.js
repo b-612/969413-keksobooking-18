@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var mapArea = document.querySelector('.map__pins');
+  var mapArea = window.pins.markersList;
   var mainPin = window.form.mainPin;
   var mainPinHalfWidth = mainPin.offsetWidth / 2;
   var isHover;
